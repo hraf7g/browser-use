@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PUBLIC_AUTH_COOKIE_NAME } from '@/lib/runtime-env';
-
-const AUTH_COOKIE_NAME = PUBLIC_AUTH_COOKIE_NAME;
+import { getPublicAuthCookieName } from '@/lib/runtime-env';
 
 const PROTECTED_PATHS = [
   '/dashboard',
@@ -25,7 +23,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const sessionToken = request.cookies.get(AUTH_COOKIE_NAME)?.value?.trim();
+  const sessionToken = request.cookies.get(getPublicAuthCookieName())?.value?.trim();
   if (sessionToken) {
     return NextResponse.next();
   }

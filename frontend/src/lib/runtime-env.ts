@@ -29,13 +29,10 @@ function resolvePublicAuthCookieName(): string {
   return (configured ?? DEFAULT_AUTH_COOKIE_NAME).trim() || DEFAULT_AUTH_COOKIE_NAME;
 }
 
-export const PUBLIC_API_BASE_URL = resolvePublicApiBaseUrl();
-export const PUBLIC_AUTH_COOKIE_NAME = resolvePublicAuthCookieName();
-
 export function getPublicApiBaseUrl(): string {
-  return PUBLIC_API_BASE_URL;
+  return resolvePublicApiBaseUrl();
 }
 
 export function getPublicAuthCookieName(): string {
-  return PUBLIC_AUTH_COOKIE_NAME;
+  return resolvePublicAuthCookieName();
 }
