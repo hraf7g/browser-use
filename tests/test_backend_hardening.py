@@ -3,15 +3,15 @@ from __future__ import annotations
 from types import SimpleNamespace
 from uuid import UUID
 
-from fastapi.testclient import TestClient
 import pytest
 from fastapi.responses import Response
+from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
+import src.shared.config.settings as settings_module
 from src.api.app import create_app
 from src.api.routes import auth as auth_route
 from src.db.session import get_db_session
-import src.shared.config.settings as settings_module
 from src.shared.config.settings import Settings
 from src.shared.security.session import clear_access_token_cookie, set_access_token_cookie
 
