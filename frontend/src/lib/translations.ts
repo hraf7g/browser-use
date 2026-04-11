@@ -131,7 +131,6 @@ export const translations = {
       signup: {
         title: 'Get started for free',
         subtitle: 'Join SMEs across MENA winning more tenders.',
-        fullName: 'Full Name',
         workEmail: 'Work Email',
         password: 'Password',
         confirmPassword: 'Confirm Password',
@@ -512,7 +511,6 @@ export const translations = {
       signup: {
         title: 'ابدأ مجاناً اليوم',
         subtitle: 'انضم للشركات التي تفوز بالمناقصات في المنطقة.',
-        fullName: 'الاسم الكامل',
         workEmail: 'البريد الإلكتروني للعمل',
         password: 'كلمة المرور',
         confirmPassword: 'تأكيد كلمة المرور',

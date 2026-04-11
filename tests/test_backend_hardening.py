@@ -8,6 +8,7 @@ from fastapi.responses import Response
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
+import src.api.dependencies.auth as auth_dependencies
 import src.shared.config.settings as settings_module
 from src.api.app import create_app
 from src.api.routes import auth as auth_route
@@ -145,3 +146,75 @@ def test_login_response_is_cookie_only(
 	cookie_header = response.headers['set-cookie']
 	assert 'utw_access_token=server-only-token' in cookie_header
 	assert 'HttpOnly' in cookie_header
+
+
+def test_signup_sets_cookie_and_me_uses_cookie_auth(
+	monkeypatch: pytest.MonkeyPatch,
+) -> None:
+	_set_base_backend_env(monkeypatch)
+	monkeypatch.setenv('UTW_ENVIRONMENT', 'development')
+	monkeypatch.setenv('UTW_AUTH_COOKIE_SECURE', 'false')
+	app = create_app()
+
+	fake_user = SimpleNamespace(
+		id=UUID('00000000-0000-0000-0000-000000000222'),
+		email='signup-test@example.com',
+		is_active=True,
+	)
+	seen_tokens: list[str] = []
+
+	class FakeSession:
+		def commit(self) -> None:
+			pass
+
+		def refresh(self, user: object) -> None:
+			pass
+
+		def rollback(self) -> None:
+			pass
+
+	def override_session() -> FakeSession:
+		return FakeSession()
+
+	def fake_register_user(*, session: object, payload: object) -> object:
+		return fake_user
+
+	def fake_create_access_token(*, user_id: object, email: str) -> str:
+		return 'signup-cookie-token'
+
+	def fake_decode_access_token(token: str) -> SimpleNamespace:
+		seen_tokens.append(token)
+		return SimpleNamespace(subject=fake_user.id)
+
+	def fake_get_user_by_id(session: object, user_id: UUID) -> object:
+		return fake_user
+
+	monkeypatch.setattr(auth_route, 'register_user', fake_register_user)
+	monkeypatch.setattr(auth_route, 'create_access_token', fake_create_access_token)
+	monkeypatch.setattr(auth_dependencies, 'decode_access_token', fake_decode_access_token)
+	monkeypatch.setattr(auth_dependencies, 'get_user_by_id', fake_get_user_by_id)
+	app.dependency_overrides[get_db_session] = override_session
+
+	client = TestClient(app)
+	signup_response = client.post(
+		'/auth/signup',
+		json={'email': 'signup-test@example.com', 'password': 'StrongPass123!'},
+	)
+
+	assert signup_response.status_code == 201
+	assert signup_response.json() == {
+		'id': '00000000-0000-0000-0000-000000000222',
+		'email': 'signup-test@example.com',
+		'is_active': True,
+	}
+	assert 'utw_access_token=signup-cookie-token' in signup_response.headers['set-cookie']
+
+	me_response = client.get('/me')
+
+	assert me_response.status_code == 200
+	assert me_response.json() == {
+		'id': '00000000-0000-0000-0000-000000000222',
+		'email': 'signup-test@example.com',
+		'is_active': True,
+	}
+	assert seen_tokens == ['signup-cookie-token']
