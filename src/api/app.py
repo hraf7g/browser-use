@@ -26,6 +26,14 @@ def create_app() -> FastAPI:
 	@asynccontextmanager
 	async def lifespan(app: FastAPI):
 		logger.info(
+			'runtime_cookie_config '
+			f"cookie_name={settings.auth_cookie_name} "
+			f"same_site={settings.auth_cookie_same_site} "
+			f"secure={settings.auth_cookie_secure or settings.environment == 'production'} "
+			f"path={settings.auth_cookie_path} "
+			f"domain={settings.auth_cookie_domain!r}"
+		)
+		logger.info(
 			'application_startup',
 			extra={
 				'app_name': settings.app_name,
