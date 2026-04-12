@@ -1,37 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getPublicAuthCookieName } from '@/lib/runtime-env';
+import { NextResponse } from 'next/server';
 
-const PROTECTED_PATHS = [
-  '/dashboard',
-  '/tenders',
-  '/notifications',
-  '/activity',
-  '/matches',
-  '/alerts',
-  '/sources',
-  '/settings',
-];
-
-function isProtectedPath(pathname: string) {
-  return PROTECTED_PATHS.some(
-    (path) => pathname === path || pathname.startsWith(`${path}/`)
-  );
-}
-
-export function proxy(request: NextRequest) {
-  if (!isProtectedPath(request.nextUrl.pathname)) {
-    return NextResponse.next();
-  }
-
-  const sessionToken = request.cookies.get(getPublicAuthCookieName())?.value?.trim();
-  if (sessionToken) {
-    return NextResponse.next();
-  }
-
-  const loginUrl = request.nextUrl.clone();
-  loginUrl.pathname = '/login';
-  loginUrl.searchParams.set('next', `${request.nextUrl.pathname}${request.nextUrl.search}`);
-  return NextResponse.redirect(loginUrl);
+export function proxy() {
+  // Auth is resolved client-side through /me against the API origin.
+  // Do not gate protected routes here because the backend cookie lives on a
+  // different origin and is not readable from the frontend request.
+  return NextResponse.next();
 }
 
 export const config = {

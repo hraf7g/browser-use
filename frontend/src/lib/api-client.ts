@@ -4,6 +4,11 @@ type FetchOptions = RequestInit & {
   params?: Record<string, string | number | undefined>;
 };
 
+const DEFAULT_REQUEST_INIT: RequestInit = {
+  credentials: 'include',
+  mode: 'cors',
+};
+
 export class ApiError extends Error {
   status: number;
 
@@ -69,7 +74,7 @@ export async function apiClient<T>(endpoint: string, options: FetchOptions = {})
   const response = await fetch(url.toString(), {
     ...init,
     headers,
-    credentials: 'include',
+    ...DEFAULT_REQUEST_INIT,
   });
 
   if (!response.ok) {
