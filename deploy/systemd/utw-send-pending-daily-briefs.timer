@@ -1,0 +1,10 @@
+[Unit]
+Description=Send queued daily briefs once per day
+
+[Timer]
+OnCalendar=*-*-* 06:30:00 UTC
+Persistent=true
+Unit=utw-send-pending-daily-briefs.service
+
+[Install]
+WantedBy=timers.target

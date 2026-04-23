@@ -1,0 +1,116 @@
+name: aws-production
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Image tag to deploy. Defaults to the current commit SHA."
+        required: false
+        type: string
+      bootstrap_repositories:
+        description: "Bootstrap ECR repositories before building images. Use on the first deploy."
+        required: true
+        type: boolean
+        default: false
+      run_migrations:
+        description: "Run database migrations after deployment."
+        required: true
+        type: boolean
+        default: true
+      seed_sources:
+        description: "Seed canonical monitored sources after deployment."
+        required: true
+        type: boolean
+        default: true
+      promote_operator:
+        description: "Run the operator promotion task after deployment."
+        required: true
+        type: boolean
+        default: false
+      run_smoke:
+        description: "Run post-deploy smoke checks."
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      TF_STATE_BUCKET: ${{ vars.TF_STATE_BUCKET }}
+      TF_STATE_KEY: ${{ vars.TF_STATE_KEY }}
+      TF_STATE_REGION: ${{ vars.TF_STATE_REGION || vars.AWS_REGION }}
+      DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
+      HOSTED_ZONE_NAME: ${{ vars.HOSTED_ZONE_NAME }}
+      SES_SENDER_EMAIL: ${{ vars.SES_SENDER_EMAIL }}
+      OPERATOR_EMAIL: ${{ vars.OPERATOR_EMAIL }}
+      ALARM_EMAIL_ENDPOINT: ${{ vars.ALARM_EMAIL_ENDPOINT }}
+      IMAGE_TAG: ${{ inputs.image_tag != '' && inputs.image_tag || github.sha }}
+      APP_URL: ${{ vars.APP_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ vars.AWS_ROLE_TO_ASSUME }}
+
+      - name: Terraform backend config
+        run: |
+          cat > infra/terraform/backend.hcl <<EOF
+          bucket       = "${TF_STATE_BUCKET}"
+          key          = "${TF_STATE_KEY}"
+          region       = "${TF_STATE_REGION}"
+          encrypt      = true
+          use_lockfile = true
+          EOF
+
+      - name: Terraform variable file
+        run: deploy/bin/aws-write-terraform-vars.sh "${IMAGE_TAG}"
+
+      - name: Terraform init
+        run: terraform -chdir=infra/terraform init -backend-config=backend.hcl
+
+      - name: Bootstrap ECR repositories
+        if: ${{ inputs.bootstrap_repositories }}
+        run: deploy/bin/aws-bootstrap-ecr-repositories.sh "${IMAGE_TAG}"
+
+      - name: Build and push images
+        run: deploy/bin/aws-build-push-images.sh "${IMAGE_TAG}"
+
+      - name: Apply infrastructure
+        run: AUTO_APPROVE=true deploy/bin/aws-apply-infra.sh "${IMAGE_TAG}"
+
+      - name: Force ECS rollout
+        run: deploy/bin/aws-force-new-deployment.sh
+
+      - name: Run migrations
+        if: ${{ inputs.run_migrations }}
+        run: deploy/bin/aws-run-backend-task.sh migrate
+
+      - name: Seed sources
+        if: ${{ inputs.seed_sources }}
+        run: deploy/bin/aws-run-backend-task.sh seed
+
+      - name: Promote operator
+        if: ${{ inputs.promote_operator }}
+        run: deploy/bin/aws-run-backend-task.sh promote-operator
+
+      - name: Post-deploy smoke
+        if: ${{ inputs.run_smoke }}
+        run: deploy/bin/aws-post-deploy-smoke.sh

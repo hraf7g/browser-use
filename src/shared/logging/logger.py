@@ -8,6 +8,32 @@ from typing import Any
 
 from src.shared.config.settings import Settings, get_settings
 
+_RESERVED_LOG_RECORD_ATTRS = {
+    'args',
+    'asctime',
+    'created',
+    'exc_info',
+    'exc_text',
+    'filename',
+    'funcName',
+    'levelname',
+    'levelno',
+    'lineno',
+    'module',
+    'msecs',
+    'message',
+    'msg',
+    'name',
+    'pathname',
+    'process',
+    'processName',
+    'relativeCreated',
+    'stack_info',
+    'thread',
+    'threadName',
+    'taskName',
+}
+
 
 class JsonFormatter(logging.Formatter):
     """Minimal JSON formatter for structured application logs."""
@@ -22,6 +48,11 @@ class JsonFormatter(logging.Formatter):
 
         if record.exc_info:
             payload["exception"] = self.formatException(record.exc_info)
+
+        for key, value in record.__dict__.items():
+            if key in _RESERVED_LOG_RECORD_ATTRS or key.startswith('_'):
+                continue
+            payload[key] = value
 
         return json.dumps(payload, ensure_ascii=False)
 

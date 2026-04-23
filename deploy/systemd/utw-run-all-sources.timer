@@ -1,0 +1,10 @@
+[Unit]
+Description=Run all tender crawlers once per day
+
+[Timer]
+OnCalendar=*-*-* 06:00:00 UTC
+Persistent=true
+Unit=utw-run-all-sources.service
+
+[Install]
+WantedBy=timers.target

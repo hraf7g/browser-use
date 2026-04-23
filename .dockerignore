@@ -2,6 +2,14 @@ docs/
 static/
 .claude/
 .github/
+frontend/.next/
+frontend/node_modules/
+frontend/coverage/
+frontend/dist/
+frontend/*.tsbuildinfo
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*
 
 # Cache files
 .DS_Store
@@ -23,19 +31,19 @@ venv/
 
 # Build Files
 dist/
+build/
 
 # Data files
 *.gif
 *.txt
 *.pdf
 *.csv
-*.json
-*.jsonl
 *.bak
 
 # Secrets and sensitive files
 secrets.env
 .env
+.env.*
 browser_cookies.json
 cookies.json
 gcp-login.json

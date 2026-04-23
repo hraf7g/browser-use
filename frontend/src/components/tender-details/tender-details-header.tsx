@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { useTranslation } from '@/context/language-context';
 import { ArrowLeft, ExternalLink, Bookmark, Share2 } from 'lucide-react';
@@ -12,6 +13,51 @@ export default function TenderDetailsHeader({
   officialUrl: string;
 }) {
   const { t, lang } = useTranslation();
+  const [savedTenderUrls, setSavedTenderUrls] = useState<string[]>(() => {
+    if (typeof window === 'undefined') {
+      return [];
+    }
+
+    return JSON.parse(window.localStorage.getItem('saved_tender_urls') ?? '[]') as string[];
+  });
+  const [shareFeedback, setShareFeedback] = useState<string | null>(null);
+  const saved = savedTenderUrls.includes(officialUrl);
+
+  function handleToggleSave() {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const nextSavedTenderUrls = new Set(savedTenderUrls);
+
+    if (nextSavedTenderUrls.has(officialUrl)) {
+      nextSavedTenderUrls.delete(officialUrl);
+    } else {
+      nextSavedTenderUrls.add(officialUrl);
+    }
+
+    const nextSavedTenderUrlList = Array.from(nextSavedTenderUrls);
+    setSavedTenderUrls(nextSavedTenderUrlList);
+
+    window.localStorage.setItem(
+      'saved_tender_urls',
+      JSON.stringify(nextSavedTenderUrlList)
+    );
+  }
+
+  async function handleShare() {
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, url: officialUrl });
+      } else {
+        await navigator.clipboard.writeText(officialUrl);
+      }
+      setShareFeedback('shared');
+      window.setTimeout(() => setShareFeedback(null), 2000);
+    } catch {
+      setShareFeedback(null);
+    }
+  }
 
   return (
     <div className="flex flex-col gap-5 rounded-[28px] border border-slate-200 bg-white px-6 py-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 lg:px-8">
@@ -39,13 +85,21 @@ export default function TenderDetailsHeader({
             <ExternalLink size={16} />
             {t.details.actions.official}
           </a>
-          <button className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
+          <button
+            type="button"
+            onClick={handleToggleSave}
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
+          >
             <Bookmark size={16} />
-            {t.details.actions.save}
+            {saved ? `${t.details.actions.save} ✓` : t.details.actions.save}
           </button>
-          <button className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
+          <button
+            type="button"
+            onClick={() => void handleShare()}
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"
+          >
             <Share2 size={16} />
-            {t.details.actions.share}
+            {shareFeedback ? `${t.details.actions.share} ✓` : t.details.actions.share}
           </button>
         </div>
       </div>

@@ -1,0 +1,14 @@
+aws_region         = "us-east-1"
+backend_image_tag  = "2026-04-20"
+frontend_image_tag = "2026-04-20"
+
+domain_name      = "app.example.com"
+hosted_zone_name = "example.com"
+
+browser_worker_desired_count = 1
+browser_worker_min_capacity  = 1
+browser_worker_max_capacity  = 2
+
+ses_sender_email   = "tenders@example.com"
+ses_reply_to_email = "support@example.com"
+operator_email     = "operator@example.com"

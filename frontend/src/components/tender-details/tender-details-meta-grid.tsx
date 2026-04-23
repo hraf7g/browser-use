@@ -12,6 +12,7 @@ export default function TenderDetailsMetaGrid({
     publishedDate: string;
     reference: string;
     category: string;
+    industries: string;
   };
 }) {
   const { t } = useTranslation();
@@ -23,7 +24,7 @@ export default function TenderDetailsMetaGrid({
     { label: t.details.labels.publishedDate, value: tender.publishedDate },
     { label: t.details.labels.reference, value: tender.reference },
     { label: t.details.labels.category, value: tender.category },
-    { label: t.details.labels.urgency, value: 'High' },
+    { label: t.details.labels.industries, value: tender.industries },
   ];
 
   return (

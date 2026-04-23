@@ -21,6 +21,16 @@ from browser_use.llm.google.chat import ChatGoogle
 from browser_use.llm.mistral.chat import ChatMistral
 from browser_use.llm.openai.chat import ChatOpenAI
 
+try:
+	from browser_use.llm.aws.chat_anthropic import ChatAnthropicBedrock
+	from browser_use.llm.aws.chat_bedrock import ChatAWSBedrock
+
+	AWS_AVAILABLE = True
+except ImportError:
+	ChatAnthropicBedrock = None
+	ChatAWSBedrock = None
+	AWS_AVAILABLE = False
+
 # Optional OCI import
 try:
 	from browser_use.llm.oci_raw.chat import ChatOCIRaw
@@ -86,6 +96,25 @@ bu_1_0: 'BaseChatModel'
 bu_2_0: 'BaseChatModel'
 
 
+def _get_aws_region() -> str:
+	region = (
+		os.getenv('BROWSER_USE_AWS_REGION')
+		or os.getenv('AWS_REGION')
+		or os.getenv('AWS_DEFAULT_REGION')
+		or os.getenv('UTW_AWS_REGION')
+	)
+	if not region:
+		raise ValueError(
+			'AWS region is required for Bedrock models. Set one of BROWSER_USE_AWS_REGION, AWS_REGION, AWS_DEFAULT_REGION, or UTW_AWS_REGION.'
+		)
+	return region
+
+
+def _require_aws_llm_support() -> None:
+	if not AWS_AVAILABLE:
+		raise ImportError('AWS Bedrock integration not available. Install with: uv sync --extra aws')
+
+
 def get_llm_by_name(model_name: str):
 	"""
 	Factory function to create LLM instances from string names with API keys from environment.
@@ -101,6 +130,20 @@ def get_llm_by_name(model_name: str):
 	"""
 	if not model_name:
 		raise ValueError('Model name cannot be empty')
+
+	if model_name.startswith('bedrock_anthropic:'):
+		_require_aws_llm_support()
+		model = model_name.split(':', 1)[1].strip()
+		if not model:
+			raise ValueError("Invalid model name format: 'bedrock_anthropic:' requires an AWS Bedrock model id.")
+		return ChatAnthropicBedrock(model=model, aws_region=_get_aws_region())
+
+	if model_name.startswith('bedrock:') or model_name.startswith('aws_bedrock:'):
+		_require_aws_llm_support()
+		model = model_name.split(':', 1)[1].strip()
+		if not model:
+			raise ValueError("Invalid model name format: 'bedrock:' requires an AWS Bedrock model id.")
+		return ChatAWSBedrock(model=model, aws_region=_get_aws_region())
 
 	# Handle top-level Mistral aliases without provider prefix
 	mistral_aliases = {
@@ -226,7 +269,14 @@ def __getattr__(name: str) -> 'BaseChatModel':
 		return ChatAzureOpenAI  # type: ignore
 	elif name == 'ChatGoogle':
 		return ChatGoogle  # type: ignore
-
+	elif name == 'ChatAnthropicBedrock':
+		if not AWS_AVAILABLE:
+			raise ImportError('AWS Bedrock integration not available. Install with: uv sync --extra aws')
+		return ChatAnthropicBedrock  # type: ignore
+	elif name == 'ChatAWSBedrock':
+		if not AWS_AVAILABLE:
+			raise ImportError('AWS Bedrock integration not available. Install with: uv sync --extra aws')
+		return ChatAWSBedrock  # type: ignore
 	elif name == 'ChatMistral':
 		return ChatMistral  # type: ignore
 
@@ -251,6 +301,8 @@ __all__ = [
 	'ChatOpenAI',
 	'ChatAzureOpenAI',
 	'ChatGoogle',
+	'ChatAnthropicBedrock',
+	'ChatAWSBedrock',
 	'ChatMistral',
 	'ChatCerebras',
 	'ChatBrowserUse',

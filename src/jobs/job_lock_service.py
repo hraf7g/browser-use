@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import logging
 from typing import Final
 
 from sqlalchemy import select
@@ -43,6 +44,47 @@ def release_named_job_lock(
     """
     lock_key = _build_job_lock_key(job_name)
     return bool(session.execute(select(_pg_advisory_unlock(lock_key))).scalar_one())
+
+
+def finalize_named_job_lock(
+    session: Session,
+    *,
+    job_name: str,
+    logger: logging.Logger,
+    active_error: Exception | None = None,
+) -> None:
+    """
+    Best-effort finalize a named advisory lock without changing the primary job outcome.
+
+    Notes:
+        - lock release failures are logged but do not override a successful job result
+        - when a job already failed, release anomalies are also logged and suppressed so the
+          original error remains the surfaced failure
+    """
+    try:
+        released = release_named_job_lock(
+            session,
+            job_name=job_name,
+        )
+    except Exception:
+        logger.exception(
+            'job_lock_release_failed',
+            extra={
+                'job_name': job_name,
+                'active_error_present': active_error is not None,
+            },
+        )
+        return
+
+    if not released:
+        logger.warning(
+            'job_lock_release_failed',
+            extra={
+                'job_name': job_name,
+                'active_error_present': active_error is not None,
+                'reason': 'lock_not_held',
+            },
+        )
 
 
 def _build_job_lock_key(job_name: str) -> int:

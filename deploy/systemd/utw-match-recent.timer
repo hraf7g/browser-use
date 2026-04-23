@@ -1,0 +1,10 @@
+[Unit]
+Description=Match recently crawled tenders every hour
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+Unit=utw-match-recent.service
+
+[Install]
+WantedBy=timers.target

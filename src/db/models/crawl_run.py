@@ -45,6 +45,26 @@ class CrawlRun(TimestampMixin, Base):
         Integer,
         nullable=True,
     )
+    crawled_row_count: Mapped[int | None] = mapped_column(
+        Integer,
+        nullable=True,
+    )
+    normalized_row_count: Mapped[int | None] = mapped_column(
+        Integer,
+        nullable=True,
+    )
+    accepted_row_count: Mapped[int | None] = mapped_column(
+        Integer,
+        nullable=True,
+    )
+    review_required_row_count: Mapped[int | None] = mapped_column(
+        Integer,
+        nullable=True,
+    )
+    updated_tender_count: Mapped[int | None] = mapped_column(
+        Integer,
+        nullable=True,
+    )
     failure_reason: Mapped[str | None] = mapped_column(
         Text,
         nullable=True,

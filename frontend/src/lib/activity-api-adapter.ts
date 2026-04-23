@@ -1,6 +1,6 @@
 import { apiClient } from './api-client';
 
-export type SourceStatus = 'healthy' | 'delayed' | 'failed' | 'retrying';
+export type SourceStatus = 'healthy' | 'degraded' | 'retrying';
 export type ActivityType = 'check' | 'detect' | 'match' | 'alert' | 'brief' | 'delay' | 'retry' | 'failure';
 
 export interface SourceMonitoring {
@@ -19,21 +19,26 @@ export interface ActivityEvent {
   description: string;
   timestamp: string;
   sourceName?: string;
+  matchedKeywords: string[];
+  matchedCountryCodes: string[];
+  matchedIndustryCodes: string[];
   metadata?: Record<string, unknown>;
 }
 
 export interface ActivityOverviewSummary {
   total_sources: number;
   healthy_sources: number;
-  delayed_sources: number;
-  failed_sources: number;
+  degraded_sources: number;
   latest_successful_check_at: string | null;
 }
 
 export interface ActivitySourceCard {
   source_id: string;
   source_name: string;
-  source_status: string;
+  source_country_code: string;
+  source_country_name: string;
+  source_lifecycle: string;
+  source_status: 'healthy' | 'degraded';
   failure_count: number;
   last_successful_run_at: string | null;
   last_failed_run_at: string | null;
@@ -41,6 +46,13 @@ export interface ActivitySourceCard {
   latest_run_started_at: string | null;
   latest_run_finished_at: string | null;
   latest_run_new_tenders_count: number | null;
+  latest_run_updated_tender_count: number | null;
+  latest_run_crawled_row_count: number | null;
+  latest_run_normalized_row_count: number | null;
+  latest_run_accepted_row_count: number | null;
+  latest_run_review_required_row_count: number | null;
+  latest_run_failure_step: string | null;
+  latest_run_failure_reason: string | null;
 }
 
 export interface ActivityRecentRunItem {
@@ -66,6 +78,8 @@ export interface ActivityFeedItem {
   tender_id?: string | null;
   tender_title?: string | null;
   matched_keywords: string[];
+  matched_country_codes: string[];
+  matched_industry_codes: string[];
   metadata: Record<string, unknown>;
 }
 
@@ -82,11 +96,11 @@ export const activityApi = {
 };
 
 export function mapSourceStatus(status: string): SourceStatus {
-  if (status === 'healthy' || status === 'delayed' || status === 'failed' || status === 'retrying') {
+  if (status === 'healthy' || status === 'degraded' || status === 'retrying') {
     return status;
   }
 
-  return 'delayed';
+  return 'degraded';
 }
 
 export function mapRunStatusToSourceStatus(status: string): SourceStatus {
@@ -95,14 +109,14 @@ export function mapRunStatusToSourceStatus(status: string): SourceStatus {
   }
 
   if (status === 'failed') {
-    return 'failed';
+    return 'degraded';
   }
 
   if (status === 'retrying') {
     return 'retrying';
   }
 
-  return 'delayed';
+  return 'degraded';
 }
 
 export function mapActivityKindToType(kind: ActivityFeedItem['kind']): ActivityType {

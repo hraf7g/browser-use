@@ -32,13 +32,31 @@ dist/
 
 # Secrets and sensitive files
 secrets.env
+*.env
 .env
 .env.*
 !.env.example
+.envrc
 .venv/
 browser_cookies.json
 cookies.json
 gcp-login.json
+backend.env
+frontend.env
+deploy/*.env
+deploy/*.local
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+*.tfvars
+*.tfstate
+*.tfstate.*
+.terraform/
+.aws/
 saved_trajectories/
 old_tests/
 AgentHistory.json

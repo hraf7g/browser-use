@@ -1,0 +1,10 @@
+[Unit]
+Description=Send queued instant alerts every 15 minutes
+
+[Timer]
+OnCalendar=*:0/15
+Persistent=true
+Unit=utw-send-pending-instant-alerts.service
+
+[Install]
+WantedBy=timers.target

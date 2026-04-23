@@ -220,11 +220,16 @@ class Agent(Generic[Context, AgentStructuredOutput]):
 				raise ValueError('llm_screenshot_size dimensions must be at least 100 pixels')
 			self.logger.info(f'🖼️  LLM screenshot resizing enabled: {width}x{height}')
 		if llm is None:
-			default_llm_name = CONFIG.DEFAULT_LLM
+			default_llm_name = CONFIG.DEFAULT_LLM.strip()
 			if default_llm_name:
 				from browser_use.llm.models import get_llm_by_name
 
 				llm = get_llm_by_name(default_llm_name)
+			elif CONFIG.BROWSER_USE_REQUIRE_EXPLICIT_LLM:
+				raise ValueError(
+					'No llm provided. Set llm=..., or configure DEFAULT_LLM. '
+					'Implicit ChatBrowserUse() fallback is disabled because BROWSER_USE_REQUIRE_EXPLICIT_LLM=true.'
+				)
 			else:
 				# No default LLM specified, use the original default
 				from browser_use import ChatBrowserUse

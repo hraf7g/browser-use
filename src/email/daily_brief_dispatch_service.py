@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
 from pathlib import Path
 from uuid import UUID
 
@@ -10,15 +9,11 @@ from sqlalchemy.orm import Session
 
 from src.db.models.email_delivery import EmailDelivery
 from src.db.models.tender_match import TenderMatch
+from src.email.backend import send_email_message
 from src.email.daily_brief_service import (
-    DailyBriefBuildResult,
     build_daily_brief_for_user,
 )
-from src.email.dev_email_backend import (
-    DEFAULT_DEV_OUTBOX_DIR,
-    DevEmailDeliveryResult,
-    send_dev_email,
-)
+from src.email.dev_email_backend import DEFAULT_DEV_OUTBOX_DIR
 
 
 @dataclass(frozen=True)
@@ -30,7 +25,7 @@ class DailyBriefDispatchResult:
     tender_ids: list[UUID]
     email_delivery_id: UUID
     backend_message_id: str
-    output_path: Path
+    output_path: Path | None
 
 
 def dispatch_daily_brief_for_user(
@@ -40,7 +35,7 @@ def dispatch_daily_brief_for_user(
     outbox_dir: Path | str = DEFAULT_DEV_OUTBOX_DIR,
 ) -> DailyBriefDispatchResult | None:
     """
-    Build and dispatch one user's daily brief using the dev email backend.
+    Build and dispatch one user's daily brief using the configured email backend.
 
     Returns:
         DailyBriefDispatchResult | None:
@@ -60,12 +55,12 @@ def dispatch_daily_brief_for_user(
     if brief is None:
         return None
 
-    delivery_backend_result = send_dev_email(
+    delivery_backend_result = send_email_message(
         brief.email_message,
         outbox_dir=outbox_dir,
     )
 
-    sent_at = datetime.now(timezone.utc)
+    sent_at = delivery_backend_result.delivered_at
 
     email_delivery = EmailDelivery(
         user_id=brief.user_id,

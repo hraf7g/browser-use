@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from src.api.dependencies.auth import get_current_user
@@ -12,6 +12,7 @@ from src.notifications.notification_history_service import (
     list_notification_delivery_history,
 )
 from src.notifications.notification_preference_service import (
+    NotificationPreferenceValidationError,
     get_or_create_notification_preference,
     update_notification_preference,
 )
@@ -72,6 +73,12 @@ def put_my_notification_preferences(
         )
         session.commit()
         return response
+    except NotificationPreferenceValidationError as exc:
+        session.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=str(exc),
+        ) from exc
     except Exception:
         session.rollback()
         raise
@@ -85,8 +92,8 @@ def put_my_notification_preferences(
 def get_my_notification_deliveries(
     current_user: Annotated[User, Depends(get_current_user)],
     session: Annotated[Session, Depends(get_db_session)],
-    page: int = Query(default=1, ge=1),
-    limit: int = Query(default=20, ge=1, le=100),
+    page: Annotated[int, Query(ge=1)] = 1,
+    limit: Annotated[int, Query(ge=1, le=100)] = 20,
 ) -> NotificationDeliveryHistoryResponse:
     """Return the current user's paginated notification delivery history."""
     return list_notification_delivery_history(

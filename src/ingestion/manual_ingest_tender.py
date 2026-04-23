@@ -9,7 +9,6 @@ from src.db.session import get_session_factory
 from src.ingestion.tender_ingestion_service import ingest_tender
 from src.shared.schemas.tender_ingestion import TenderIngestionInput
 
-
 MANUAL_SOURCE_NAME = "Dubai eSupply"
 
 

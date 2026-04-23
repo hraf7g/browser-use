@@ -1,6 +1,8 @@
 'use client';
 
 import type { LucideIcon } from 'lucide-react';
+import { compactBadgeClass } from '@/lib/locale-ui';
+import type { Language } from '@/lib/translations';
 
 export default function NotificationChannelCard({
   icon: Icon,
@@ -11,6 +13,9 @@ export default function NotificationChannelCard({
   placeholder,
   value,
   onChange,
+  statusEnabledLabel,
+  statusDisabledLabel,
+  lang,
 }: {
   icon: LucideIcon;
   title: string;
@@ -20,6 +25,9 @@ export default function NotificationChannelCard({
   placeholder?: string;
   value?: string;
   onChange?: (value: string) => void;
+  statusEnabledLabel: string;
+  statusDisabledLabel: string;
+  lang: Language;
 }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
@@ -31,13 +39,13 @@ export default function NotificationChannelCard({
           <div className="flex items-center justify-between gap-3">
             <h3 className="font-bold text-slate-950 dark:text-white">{title}</h3>
             <span
-              className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] ${
+              className={`${compactBadgeClass(lang)} rounded-full px-2.5 py-1 ${
                 enabled
                   ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
                   : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
               }`}
             >
-              {enabled ? 'On' : 'Off'}
+              {enabled ? statusEnabledLabel : statusDisabledLabel}
             </span>
           </div>
           {isInput ? (

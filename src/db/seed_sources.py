@@ -4,22 +4,9 @@ from sqlalchemy import select
 
 from src.db.models.source import Source
 from src.db.session import get_session_factory
+from src.shared.source_registry import build_seed_source_rows
 
-
-SEED_SOURCES: tuple[dict[str, str], ...] = (
-    {
-        "name": "Dubai eSupply",
-        "base_url": "https://esupply.dubai.gov.ae",
-        "status": "healthy",
-        "notes": "Seeded v1 source; verification status managed operationally outside seed data.",
-    },
-    {
-        "name": "Federal MOF",
-        "base_url": "https://mprocurement.mof.gov.ae/",
-        "status": "healthy",
-        "notes": "Seeded v1 source; public listing accessibility must be validated separately.",
-    },
-)
+SEED_SOURCES: tuple[dict[str, str], ...] = build_seed_source_rows()
 
 
 def seed_sources() -> int:

@@ -1,37 +1,5 @@
 import { apiClient } from './api-client';
 
-export interface NotificationPreferences {
-  email_enabled: boolean;
-  whatsapp_enabled: boolean;
-  whatsapp_number?: string;
-  daily_brief_enabled: boolean;
-  instant_alerts_enabled: boolean;
-  preferred_language: 'auto' | 'en' | 'ar';
-}
-
-export interface NotificationDelivery {
-  id: string;
-  type: 'instant_alert' | 'daily_brief';
-  status: 'sent' | 'failed' | 'pending';
-  attempted_at: string;
-  match_count: number;
-  failure_reason?: string;
-}
-
-export const notificationApi = {
-  getPreferences: () => 
-    apiClient<NotificationPreferences>('/me/notification-preferences'),
-    
-  updatePreferences: (data: Partial<NotificationPreferences>) =>
-    apiClient<NotificationPreferences>('/me/notification-preferences', {
-      method: 'PUT',
-      body: JSON.stringify(data),
-    }),
-    
-  getDeliveries: () =>
-    apiClient<NotificationDelivery[]>('/me/notification-deliveries'),
-};
-
 export interface NotificationPreferencesApiResponse {
   user_id: string;
   email_enabled: boolean;

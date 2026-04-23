@@ -1,69 +1,73 @@
 'use client';
-import { motion } from 'framer-motion';
+
 import { useTranslation } from '@/context/language-context';
-import { Bell, Search, Zap, Globe } from 'lucide-react';
+import { Bell, Globe, Search, Zap } from 'lucide-react';
 
 export default function Offers() {
   const { t, lang } = useTranslation();
 
   const features = [
-    { 
-      icon: Bell, 
-      color: 'text-blue-600', 
+    {
+      icon: Bell,
+      color: 'text-blue-600',
       bg: 'bg-blue-50 dark:bg-blue-900/10',
-      title: lang === 'ar' ? 'تنبيهات فورية' : 'Instant Alerts',
-      desc: lang === 'ar' ? 'احصل على تنبيه خلال أجزاء من الثانية' : 'Get notified within milliseconds of a tender posting.',
-      span: 'col-span-12 md:col-span-4' 
+      ...t.features.items[0],
+      span: 'col-span-12 md:col-span-5',
     },
-    { 
-      icon: Search, 
-      color: 'text-indigo-600', 
+    {
+      icon: Search,
+      color: 'text-indigo-600',
       bg: 'bg-indigo-50 dark:bg-indigo-900/10',
-      title: lang === 'ar' ? 'بحث ذكي' : 'Strategic Search',
-      desc: lang === 'ar' ? 'تحدد أدواتنا الفرص بناءً على أنماط فوزك' : 'Our tools identify opportunities based on your win patterns.',
-      span: 'col-span-12 md:col-span-8' 
+      ...t.features.items[1],
+      span: 'col-span-12 md:col-span-7',
     },
-    { 
-      icon: Globe, 
-      color: 'text-purple-600', 
-      bg: 'bg-purple-50 dark:bg-purple-900/10',
-      title: lang === 'ar' ? 'تغطية شاملة' : 'MENA Coverage',
-      desc: lang === 'ar' ? 'راقب أكثر من ٥٠ مصدراً رسمياً' : 'Monitor 50+ official sources through one unified interface.',
-      span: 'col-span-12 md:col-span-8' 
+    {
+      icon: Globe,
+      color: 'text-violet-600',
+      bg: 'bg-violet-50 dark:bg-violet-900/10',
+      ...t.features.items[2],
+      span: 'col-span-12 md:col-span-7',
     },
-    { 
-      icon: Zap, 
-      color: 'text-amber-600', 
+    {
+      icon: Zap,
+      color: 'text-amber-600',
       bg: 'bg-amber-50 dark:bg-amber-900/10',
-      title: lang === 'ar' ? 'ملخصات ذكية' : 'Smart Briefs',
-      desc: lang === 'ar' ? 'قم بتلخيص مستندات المناقصات المعقدة' : 'Summarize complex tender documents and identify key compliance.',
-      span: 'col-span-12 md:col-span-4' 
+      ...t.features.items[3],
+      span: 'col-span-12 md:col-span-5',
     },
   ];
 
   return (
-    <section id="features" className="py-24 bg-slate-50 dark:bg-slate-950/50">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="features" className="bg-slate-50/70 py-20 dark:bg-slate-950/50">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="mb-12 flex max-w-3xl flex-col gap-4">
+          <p className={`text-sm font-bold text-blue-600 ${lang === 'ar' ? 'tracking-normal' : 'uppercase tracking-[0.24em]'}`}>
+            {t.productPreview.badge}
+          </p>
+          <h2 className="text-4xl font-bold tracking-tight text-slate-950 dark:text-white">
+            {t.productPreview.title}
+          </h2>
+          <p className={`text-lg text-slate-600 dark:text-slate-400 ${lang === 'ar' ? 'leading-9' : 'leading-8'}`}>
+            {t.productPreview.subtitle}
+          </p>
+        </div>
+
         <div className="grid grid-cols-12 gap-6">
-          {features.map((f, i) => (
-            <motion.div
+          {features.map((feature, i) => (
+            <div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`${f.span} group relative p-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all hover:shadow-2xl hover:shadow-blue-500/5`}
+              className={`${feature.span} rounded-3xl border border-slate-200 bg-white p-8 transition-all hover:shadow-2xl hover:shadow-blue-500/5 dark:border-slate-800 dark:bg-slate-900`}
             >
-              <div className={`w-12 h-12 rounded-2xl ${f.bg} flex items-center justify-center mb-6`}>
-                <f.icon className={f.color} size={24} />
+              <div className={`mb-6 flex h-12 w-12 items-center justify-center rounded-2xl ${feature.bg}`}>
+                <feature.icon className={feature.color} size={24} />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white leading-tight">
-                {f.title}
+              <h3 className="mb-3 text-xl font-bold leading-tight text-slate-900 dark:text-white">
+                {feature.title}
               </h3>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm md:text-base">
-                {f.desc}
+              <p className={`text-sm text-slate-600 dark:text-slate-400 md:text-base ${lang === 'ar' ? 'leading-8' : 'leading-7'}`}>
+                {feature.desc}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

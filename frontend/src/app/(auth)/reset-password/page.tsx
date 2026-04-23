@@ -5,10 +5,16 @@ export const metadata = {
   title: 'Reset Password | Tender Watch',
 };
 
-export default function ResetPasswordPage() {
+export default async function ResetPasswordPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ token?: string }>;
+}) {
+  const params = await searchParams;
+
   return (
     <AuthShell>
-      <ResetPasswordForm />
+      <ResetPasswordForm token={params.token} />
     </AuthShell>
   );
 }

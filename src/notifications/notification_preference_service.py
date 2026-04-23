@@ -12,6 +12,10 @@ from src.shared.schemas.notification_preference import (
 )
 
 
+class NotificationPreferenceValidationError(ValueError):
+    """Raised when a notification-preference update is semantically invalid."""
+
+
 def get_or_create_notification_preference(
     session: Session,
     *,
@@ -113,7 +117,7 @@ def _require_boolean_value(
 ) -> bool:
     """Reject explicit null for boolean preference updates."""
     if value is None:
-        raise ValueError(f"{field_name} must not be null")
+        raise NotificationPreferenceValidationError(f"{field_name} must not be null")
     return value
 
 

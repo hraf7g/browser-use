@@ -1,0 +1,11 @@
+[Unit]
+Description=UAE Tender Watch instant alert dispatcher
+After=network.target
+
+[Service]
+Type=oneshot
+User=utw
+Group=utw
+WorkingDirectory=/opt/utw/current
+EnvironmentFile=/etc/utw/backend.env
+ExecStart=/opt/utw/current/.venv/bin/python -m src.jobs.run_send_pending_instant_alerts_once

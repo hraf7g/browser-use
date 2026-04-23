@@ -9,7 +9,6 @@ from dataclasses import dataclass
 from typing import Any
 from uuid import uuid4
 
-
 BASE_URL = "http://127.0.0.1:8000"
 TEST_EMAIL = f"milestone2_verify_{uuid4().hex}@example.com"
 TEST_PASSWORD = "StrongPass123!"

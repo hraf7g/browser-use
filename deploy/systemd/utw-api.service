@@ -1,0 +1,17 @@
+[Unit]
+Description=UAE Tender Watch API
+After=network.target
+
+[Service]
+Type=simple
+User=utw
+Group=utw
+WorkingDirectory=/opt/utw/current
+EnvironmentFile=/etc/utw/backend.env
+ExecStart=/opt/utw/current/.venv/bin/python -m uvicorn src.api.app:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+TimeoutStartSec=30
+
+[Install]
+WantedBy=multi-user.target

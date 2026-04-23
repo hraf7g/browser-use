@@ -1,23 +1,35 @@
 'use client';
 import { useTranslation } from '@/context/language-context';
-import { motion } from 'framer-motion';
 
 export const LanguageToggle = () => {
   const { lang, setLang } = useTranslation();
+  const isEnglish = lang === 'en';
 
   return (
     <button
+      type="button"
       onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
-      className="px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-900 text-sm font-bold border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+      aria-label={isEnglish ? 'Switch language to Arabic' : 'التبديل إلى الإنجليزية'}
+      className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-100/90 p-1 text-sm font-bold text-slate-900 transition-colors hover:bg-slate-200 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
     >
-      <motion.span
-        key={lang}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.2 }}
+      <span
+        className={`rounded-full px-2.5 py-1 transition-colors ${
+          isEnglish
+            ? 'bg-white text-slate-950 shadow-sm dark:bg-slate-800 dark:text-white'
+            : 'text-slate-500 dark:text-slate-400'
+        }`}
       >
-        {lang === 'en' ? 'AR' : 'EN'}
-      </motion.span>
+        EN
+      </span>
+      <span
+        className={`rounded-full px-2.5 py-1 transition-colors ${
+          !isEnglish
+            ? 'bg-white text-slate-950 shadow-sm dark:bg-slate-800 dark:text-white'
+            : 'text-slate-500 dark:text-slate-400'
+        }`}
+      >
+        العربية
+      </span>
     </button>
   );
 };

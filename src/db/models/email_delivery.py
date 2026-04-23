@@ -4,7 +4,7 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import DateTime, ForeignKey, Index, Integer, String, Text
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import ARRAY, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.db.models.base import Base, TimestampMixin
@@ -47,6 +47,34 @@ class EmailDelivery(TimestampMixin, Base):
     )
     match_count: Mapped[int | None] = mapped_column(
         Integer,
+        nullable=True,
+    )
+    recipient_email: Mapped[str | None] = mapped_column(
+        String(320),
+        nullable=True,
+    )
+    subject: Mapped[str | None] = mapped_column(
+        String(255),
+        nullable=True,
+    )
+    body_text: Mapped[str | None] = mapped_column(
+        Text,
+        nullable=True,
+    )
+    match_ids: Mapped[list[uuid.UUID] | None] = mapped_column(
+        ARRAY(UUID(as_uuid=True)),
+        nullable=True,
+    )
+    tender_ids: Mapped[list[uuid.UUID] | None] = mapped_column(
+        ARRAY(UUID(as_uuid=True)),
+        nullable=True,
+    )
+    backend_message_id: Mapped[str | None] = mapped_column(
+        String(255),
+        nullable=True,
+    )
+    backend_output_path: Mapped[str | None] = mapped_column(
+        Text,
         nullable=True,
     )
     failure_reason: Mapped[str | None] = mapped_column(

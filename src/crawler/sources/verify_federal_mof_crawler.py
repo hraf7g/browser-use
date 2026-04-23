@@ -4,8 +4,8 @@ import asyncio
 import sys
 
 from src.crawler.sources.federal_mof_crawler import (
-    FederalMOFCrawlResult,
     FederalMOFCrawlerError,
+    FederalMOFCrawlResult,
     run_federal_mof_crawl,
 )
 

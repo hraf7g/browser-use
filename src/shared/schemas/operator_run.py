@@ -1,18 +1,30 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
-SupportedOperatorSourceName = Literal["Dubai eSupply", "Federal MOF"]
+from src.shared.source_registry import is_supported_source_name, supported_source_names_text
+
+SupportedOperatorSourceName = str
 
 
 class OperatorRunSourceRequest(BaseModel):
     """Validated operator request payload for one manual source run."""
 
     source_name: SupportedOperatorSourceName
+
+    @field_validator("source_name")
+    @classmethod
+    def validate_source_name(cls, value: str) -> str:
+        cleaned = value.strip()
+        if not is_supported_source_name(cleaned):
+            raise ValueError(
+                "unsupported source_name; supported values are "
+                f"{supported_source_names_text()}"
+            )
+        return cleaned
 
 
 class OperatorRunSourceResponse(BaseModel):
@@ -33,3 +45,14 @@ class OperatorRunSourceResponse(BaseModel):
     updated_tender_count: int = Field(ge=0)
     failure_step: str | None = Field(default=None, max_length=100)
     failure_reason: str | None = Field(default=None, max_length=2000)
+
+    @field_validator("source_name")
+    @classmethod
+    def validate_response_source_name(cls, value: str) -> str:
+        cleaned = value.strip()
+        if not is_supported_source_name(cleaned):
+            raise ValueError(
+                "unsupported source_name; supported values are "
+                f"{supported_source_names_text()}"
+            )
+        return cleaned

@@ -1,14 +1,23 @@
 'use client';
 import { motion } from 'framer-motion';
 import { useTranslation } from '@/context/language-context';
-import { MapPin, Calendar, ArrowUpRight, Zap } from 'lucide-react';
+import { Building2, Calendar, ArrowUpRight, Zap } from 'lucide-react';
 import TendersStatusBadge from './tenders-status-badge';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import type { UITenderItem } from './tenders-list';
+import { getMatchReasonBadges } from '@/lib/match-reason';
 
 export default function TendersListItem({ tender }: { tender: UITenderItem }) {
   const { t, lang } = useTranslation();
+  const matchReasonBadges = getMatchReasonBadges(
+    {
+      keywords: tender.matchedKeywords,
+      countryCodes: tender.matchedCountryCodes,
+      industryCodes: tender.matchedIndustryCodes,
+    },
+    lang
+  );
 
   return (
     <motion.div 
@@ -23,7 +32,7 @@ export default function TendersListItem({ tender }: { tender: UITenderItem }) {
             <TendersStatusBadge type={tender.isNew ? 'new' : ''} />
             <TendersStatusBadge type={tender.isMatched ? 'matched' : ''} />
             <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-[11px] font-bold">
-              <MapPin size={12} />
+              <Building2 size={12} />
               {tender.source}
             </div>
             <span className="text-slate-400 text-[11px] font-medium font-mono">{tender.reference}</span>
@@ -39,11 +48,23 @@ export default function TendersListItem({ tender }: { tender: UITenderItem }) {
 
           {/* Match Reason Section */}
           {tender.isMatched && (
-            <div className="flex items-center gap-2 py-2 px-3 rounded-xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/40 w-fit">
-              <Zap size={14} className="text-blue-600" />
-              <span className="text-xs font-semibold text-blue-900 dark:text-blue-300">
-                {t.tenders.card.matchReason} {tender.matchedKeywords.join(', ')}
-              </span>
+            <div className="w-fit rounded-xl border border-blue-100 bg-blue-50/50 px-3 py-2 dark:border-blue-900/40 dark:bg-blue-950/20">
+              <div className="flex items-center gap-2">
+                <Zap size={14} className="text-blue-600" />
+                <span className="text-xs font-semibold text-blue-900 dark:text-blue-300">
+                  {t.tenders.card.matchReason}
+                </span>
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {matchReasonBadges.map((badge) => (
+                  <span
+                    key={badge.key}
+                    className="rounded-full border border-blue-200 bg-white px-2.5 py-1 text-[11px] font-bold text-blue-700 dark:border-blue-800 dark:bg-slate-900 dark:text-blue-300"
+                  >
+                    {badge.label}
+                  </span>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -52,12 +73,16 @@ export default function TendersListItem({ tender }: { tender: UITenderItem }) {
         <div className="flex flex-col justify-between items-end gap-4 min-w-[140px]">
           <div className={cn(
             "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold",
-            tender.daysLeft <= 3 
+            tender.daysLeft !== null && tender.daysLeft <= 3 
               ? "bg-red-50 text-red-600 dark:bg-red-950/30 dark:text-red-400" 
               : "bg-slate-50 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
           )}>
             <Calendar size={14} />
-            {t.tenders.card.daysLeft.replace('{n}', tender.daysLeft.toString())}
+            {tender.daysLeft === null
+              ? 'Closing date unknown'
+              : tender.daysLeft <= 0
+              ? t.tenders.card.closed
+              : t.tenders.card.daysLeft.replace('{n}', tender.daysLeft.toString())}
           </div>
 
           <Link href={`/tenders/${tender.id}`} className="w-full md:w-auto px-6 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2">

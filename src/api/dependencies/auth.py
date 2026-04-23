@@ -120,3 +120,21 @@ def get_current_user(
 
     logger.info("auth_current_user_lookup outcome=success")
     return user
+
+
+def get_current_user_optional(
+    request: Request,
+    session: Annotated[Session, Depends(get_db_session)],
+) -> User | None:
+    """Resolve the current user when a valid auth token is present, else return None."""
+    try:
+        token = get_bearer_token(None, request)
+        claims = decode_access_token(token)
+        user = get_user_by_id(session, claims.subject)
+    except (HTTPException, TokenError, UserNotFoundError):
+        return None
+
+    if not user.is_active:
+        return None
+
+    return user

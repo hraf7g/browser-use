@@ -13,8 +13,8 @@ def run() -> None:
 
     This script verifies:
         - the job returns a structured overall status
-        - exactly two source results are returned
-        - both supported source names are present
+        - exactly six source results are returned
+        - all supported source names are present
         - persisted CrawlRun rows exist for each returned run_identifier
     """
     result = run_all_sources_job()
@@ -22,17 +22,24 @@ def run() -> None:
     if not result.overall_status:
         raise ValueError("expected overall_status to be populated")
 
-    if result.total_sources != 2:
-        raise ValueError(f"expected total_sources=2, got {result.total_sources}")
+    if result.total_sources != 6:
+        raise ValueError(f"expected total_sources=6, got {result.total_sources}")
 
-    if len(result.results) != 2:
-        raise ValueError(f"expected exactly 2 source results, got {len(result.results)}")
+    if len(result.results) != 6:
+        raise ValueError(f"expected exactly 6 source results, got {len(result.results)}")
 
-    result_source_names = {item.source_name for item in result.results}
-    expected_source_names = {"Dubai eSupply", "Federal MOF"}
-    if result_source_names != expected_source_names:
+    ordered_source_names = [item.source_name for item in result.results]
+    expected_source_names = [
+        "Dubai eSupply",
+        "Federal MOF",
+        "Saudi Etimad",
+        "Saudi MISA Procurements",
+        "Oman Tender Board",
+        "Abu Dhabi GPG",
+    ]
+    if ordered_source_names != expected_source_names:
         raise ValueError(
-            f"expected source names {expected_source_names!r}, got {result_source_names!r}"
+            f"expected ordered source names {expected_source_names!r}, got {ordered_source_names!r}"
         )
 
     session_factory = get_session_factory()
@@ -45,9 +52,9 @@ def run() -> None:
             )
         ).scalars().all()
 
-    if len(crawl_runs) != 2:
+    if len(crawl_runs) != 6:
         raise ValueError(
-            "expected persisted CrawlRun rows for both returned run identifiers, "
+            "expected persisted CrawlRun rows for all returned run identifiers, "
             f"got {len(crawl_runs)}"
         )
 

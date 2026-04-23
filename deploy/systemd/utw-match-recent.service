@@ -1,0 +1,11 @@
+[Unit]
+Description=UAE Tender Watch recent tender matcher
+After=network.target
+
+[Service]
+Type=oneshot
+User=utw
+Group=utw
+WorkingDirectory=/opt/utw/current
+EnvironmentFile=/etc/utw/backend.env
+ExecStart=/opt/utw/current/deploy/bin/run-match-recent.sh

@@ -11,6 +11,7 @@ import TenderDetailsSourceCard from '@/components/tender-details/tender-details-
 import { useTranslation } from '@/context/language-context';
 import { tenderDetailsApi } from '@/lib/tender-details-api-adapter';
 import type { TenderDetailsApiResponse } from '@/lib/tender-details-api-adapter';
+import { getIndustryLabel } from '@/lib/match-reason';
 
 export default function TenderDetailsPage() {
   const { t, lang } = useTranslation();
@@ -105,9 +106,11 @@ export default function TenderDetailsPage() {
           <TenderDetailsMetaGrid
             tender={{
               source: tender.source_name ?? tender.source_url,
-              closingDate: new Intl.DateTimeFormat(lang, { dateStyle: 'medium', timeStyle: 'short' }).format(
-                new Date(tender.closing_date)
-              ),
+              closingDate: tender.closing_date
+                ? new Intl.DateTimeFormat(lang, { dateStyle: 'medium', timeStyle: 'short' }).format(
+                    new Date(tender.closing_date)
+                  )
+                : t.details.labels.notAvailable,
               openingDate: tender.opening_date
                 ? new Intl.DateTimeFormat(lang, { dateStyle: 'medium', timeStyle: 'short' }).format(
                     new Date(tender.opening_date)
@@ -120,9 +123,17 @@ export default function TenderDetailsPage() {
                 : t.details.labels.notAvailable,
               reference: tender.tender_ref ?? t.details.labels.notAvailable,
               category: tender.category ?? t.details.labels.notAvailable,
+              industries:
+                tender.industry_codes.length > 0
+                  ? tender.industry_codes.map((industryCode) => getIndustryLabel(industryCode)).join(', ')
+                  : t.details.labels.notAvailable,
             }}
           />
-          <TenderDetailsMatchReason keywords={tender.matched_keywords} />
+          <TenderDetailsMatchReason
+            keywords={tender.matched_keywords}
+            countryCodes={tender.matched_country_codes}
+            industryCodes={tender.matched_industry_codes}
+          />
         </div>
 
         {/* Sidebar: Right Column */}

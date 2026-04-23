@@ -5,16 +5,29 @@ import type { ActivityOverviewSummary } from '@/lib/activity-api-adapter';
 
 export default function SourceHealthSummary({
   summary,
+  monitoringActive,
 }: {
   summary: ActivityOverviewSummary;
+  monitoringActive: boolean;
 }) {
   const { t, lang } = useTranslation();
 
   const items = [
-    { label: t.activity.summaryCards.totalSources, value: summary.total_sources.toString() },
-    { label: t.activity.summaryCards.healthySources, value: summary.healthy_sources.toString() },
-    { label: t.activity.summaryCards.delayedSources, value: summary.delayed_sources.toString() },
-    { label: t.activity.summaryCards.failedSources, value: summary.failed_sources.toString() },
+    {
+      label: t.activity.summaryCards.totalSources,
+      value: summary.total_sources.toString(),
+      caption: monitoringActive ? t.activity.summaryCards.captions.totalSourcesActive : t.activity.summaryCards.captions.totalSourcesInactive,
+    },
+    {
+      label: t.activity.summaryCards.healthySources,
+      value: summary.healthy_sources.toString(),
+      caption: monitoringActive ? t.activity.summaryCards.captions.healthySourcesActive : t.activity.summaryCards.captions.healthySourcesInactive,
+    },
+    {
+      label: t.activity.summaryCards.degradedSources,
+      value: summary.degraded_sources.toString(),
+      caption: monitoringActive ? t.activity.summaryCards.captions.degradedSourcesActive : t.activity.summaryCards.captions.degradedSourcesInactive,
+    },
   ];
 
   const latestSuccessfulCheck = summary.latest_successful_check_at
@@ -36,6 +49,9 @@ export default function SourceHealthSummary({
             </p>
             <p className="mt-4 text-3xl font-bold tracking-tight text-slate-950 dark:text-white">
               {item.value}
+            </p>
+            <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">
+              {item.caption}
             </p>
           </div>
         ))}

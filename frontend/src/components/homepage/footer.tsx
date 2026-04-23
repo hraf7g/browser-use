@@ -1,9 +1,18 @@
 'use client';
+
+import Link from 'next/link';
+
 import { useTranslation } from '@/context/language-context';
 import { Search } from 'lucide-react';
 
 export default function Footer() {
   const { t } = useTranslation();
+  const links = [
+    { label: t.nav.howItWorks, href: '#how' },
+    { label: t.nav.faq, href: '#faq' },
+    { label: t.nav.signIn, href: '/login' },
+    { label: t.nav.getStarted, href: '/signup' },
+  ];
 
   return (
     <footer className="py-20 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
@@ -18,9 +27,11 @@ export default function Footer() {
             </span>
           </div>
 
-          <div className="flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-400">
-            {t.footer.links.map((link: string, i: number) => (
-              <a key={i} href="#" className="hover:text-blue-600 transition-colors">{link}</a>
+          <div className="flex flex-wrap items-center justify-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-400">
+            {links.map((link) => (
+              <Link key={link.href} href={link.href} className="hover:text-blue-600 transition-colors">
+                {link.label}
+              </Link>
             ))}
           </div>
         </div>

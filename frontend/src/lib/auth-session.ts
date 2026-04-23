@@ -4,6 +4,12 @@ export interface AuthUser {
   id: string;
   email: string;
   is_active: boolean;
+  is_operator: boolean;
+}
+
+interface SessionStatusResponse {
+  authenticated: boolean;
+  user: AuthUser | null;
 }
 
 export interface LoginCredentials {
@@ -12,6 +18,21 @@ export interface LoginCredentials {
 }
 
 export interface SignupCredentials extends LoginCredentials {}
+
+export interface ForgotPasswordResponse {
+  accepted: boolean;
+  message: string;
+  delivery_channel: string;
+}
+
+export interface ResetPasswordPayload {
+  token: string;
+  password: string;
+}
+
+export interface ResetPasswordResponse {
+  message: string;
+}
 
 export function resolveSafeRedirectPath(
   nextPath: string | null | undefined,
@@ -63,7 +84,26 @@ async function logout(): Promise<void> {
 }
 
 async function getCurrentUser(): Promise<AuthUser> {
-  return apiClient<AuthUser>('/me');
+  const session = await apiClient<SessionStatusResponse>('/auth/session');
+  if (session.authenticated && session.user) {
+    return session.user;
+  }
+
+  throw new ApiError('authentication required', 401, session);
+}
+
+async function requestPasswordReset(email: string): Promise<ForgotPasswordResponse> {
+  return apiClient<ForgotPasswordResponse>('/auth/forgot-password', {
+    method: 'POST',
+    body: JSON.stringify({ email }),
+  });
+}
+
+async function resetPassword(payload: ResetPasswordPayload): Promise<ResetPasswordResponse> {
+  return apiClient<ResetPasswordResponse>('/auth/reset-password', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
 }
 
 function isUnauthorizedError(error: unknown): boolean {
@@ -75,5 +115,7 @@ export const authSession = {
   signup,
   logout,
   getCurrentUser,
+  requestPasswordReset,
+  resetPassword,
   isUnauthorizedError,
 };

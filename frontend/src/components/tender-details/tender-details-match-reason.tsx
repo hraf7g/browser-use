@@ -1,11 +1,28 @@
 'use client';
 import { useTranslation } from '@/context/language-context';
 import { Zap, Target, Info } from 'lucide-react';
+import { getMatchReasonBadges } from '@/lib/match-reason';
 
-export default function TenderDetailsMatchReason({ keywords }: { keywords: string[] }) {
-  const { t } = useTranslation();
+export default function TenderDetailsMatchReason({
+  keywords,
+  countryCodes,
+  industryCodes,
+}: {
+  keywords: string[];
+  countryCodes: string[];
+  industryCodes: string[];
+}) {
+  const { t, lang } = useTranslation();
+  const reasonBadges = getMatchReasonBadges(
+    {
+      keywords,
+      countryCodes,
+      industryCodes,
+    },
+    lang
+  );
 
-  if (keywords.length === 0) {
+  if (reasonBadges.length === 0) {
     return (
       <div className="rounded-2xl border border-blue-100 bg-blue-50/50 p-6 dark:border-blue-900/30 dark:bg-blue-900/10">
         <div className="flex items-center gap-3">
@@ -18,7 +35,7 @@ export default function TenderDetailsMatchReason({ keywords }: { keywords: strin
           </div>
         </div>
         <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-          {t.details.match.noKeywords}
+          {t.details.match.noReasons}
         </p>
       </div>
     );
@@ -37,13 +54,13 @@ export default function TenderDetailsMatchReason({ keywords }: { keywords: strin
       </div>
 
       <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-4">
-        {t.details.match.reason.replace('{keywords}', keywords.join(', '))}
+        {t.details.match.reason}
       </p>
 
       <div className="flex flex-wrap gap-2">
-        {keywords.map((kw) => (
-          <span key={kw} className="px-3 py-1 bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-800 rounded-full text-xs font-bold text-blue-700 dark:text-blue-300">
-            {kw}
+        {reasonBadges.map((badge) => (
+          <span key={badge.key} className="px-3 py-1 bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-800 rounded-full text-xs font-bold text-blue-700 dark:text-blue-300">
+            {badge.label}
           </span>
         ))}
       </div>

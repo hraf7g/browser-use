@@ -7,6 +7,7 @@ from sqlalchemy import select
 
 from src.db.models.crawl_run import CrawlRun
 from src.db.models.source import Source
+from src.db.models.tender import Tender
 from src.db.session import get_session_factory
 from src.operator.operator_status_service import list_operator_source_statuses
 
@@ -19,6 +20,7 @@ def run() -> None:
     - sources can be read
     - a staged crawl run becomes the latest run for the selected source
     - the operator status service returns the expected latest run metadata
+    - staged AI enrichment state is reflected in the operator response
     - verification does not permanently mutate production data
     """
     session_factory = get_session_factory()
@@ -45,6 +47,28 @@ def run() -> None:
             run_identifier=verification_run_identifier,
         )
         session.add(staged_crawl_run)
+        staged_tender = Tender(
+            source_id=source.id,
+            tender_ref=f"VERIFY-OPERATOR-{uuid4().hex[:12].upper()}",
+            source_url=f"{source.base_url.rstrip('/')}/verify-operator-ai-enrichment",
+            title="Operator status AI enrichment verification tender",
+            issuing_entity="Operator Verification Entity",
+            closing_date=now,
+            opening_date=now,
+            published_at=now,
+            category="Verification",
+            industry_codes=[],
+            primary_industry_code=None,
+            ai_summary=None,
+            ai_summary_attempt_count=1,
+            ai_summary_generated_at=None,
+            ai_summary_last_attempted_at=now,
+            ai_summary_last_error="simulated enrichment failure for operator verification",
+            ai_summary_model=None,
+            dedupe_key=f"verify-operator-{uuid4().hex}",
+            search_text="operator status ai enrichment verification tender",
+        )
+        session.add(staged_tender)
         session.flush()
 
         response = list_operator_source_statuses(session=session)
@@ -72,6 +96,16 @@ def run() -> None:
                 "operator status service did not return the expected new_tenders_count"
             )
 
+        if source_item.ai_enrichment.retryable_failed_count != 1:
+            raise ValueError(
+                "operator status service did not return the expected AI retryable_failed_count"
+            )
+
+        if source_item.ai_enrichment.last_error != "simulated enrichment failure for operator verification":
+            raise ValueError(
+                "operator status service did not return the expected AI last_error"
+            )
+
         print(f"verify_operator_generated_at={response.generated_at.isoformat()}")
         print(f"verify_operator_source_id={source_item.source_id}")
         print(f"verify_operator_source_name={source_item.source_name}")
@@ -87,6 +121,25 @@ def run() -> None:
         )
         print(
             f"verify_operator_latest_run_new_tenders_count={source_item.latest_run_new_tenders_count}"
+        )
+        print(
+            f"verify_operator_ai_pending_count={source_item.ai_enrichment.pending_count}"
+        )
+        print(
+            "verify_operator_ai_retryable_failed_count="
+            f"{source_item.ai_enrichment.retryable_failed_count}"
+        )
+        print(
+            f"verify_operator_ai_exhausted_count={source_item.ai_enrichment.exhausted_count}"
+        )
+        print(
+            f"verify_operator_ai_completed_count={source_item.ai_enrichment.completed_count}"
+        )
+        print(
+            f"verify_operator_ai_last_attempted_at={source_item.ai_enrichment.last_attempted_at.isoformat()}"
+        )
+        print(
+            f"verify_operator_ai_last_error={source_item.ai_enrichment.last_error}"
         )
         print(
             f"verify_operator_latest_run_identifier={source_item.latest_run_identifier}"

@@ -1,5 +1,4 @@
 'use client';
-import { motion } from 'framer-motion';
 import { useTranslation } from '@/context/language-context';
 import { ThemeToggle } from '../ui/theme-toggle';
 import { LanguageToggle } from '../ui/language-toggle';
@@ -9,21 +8,20 @@ export default function Header() {
   const { t } = useTranslation();
 
   return (
-    <motion.header 
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      className="fixed top-0 w-full z-50 border-b border-slate-200/60 dark:border-slate-800/50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md"
-    >
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <header className="fixed top-0 w-full z-50 border-b border-slate-200/60 dark:border-slate-800/50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <div className="flex items-center gap-8">
-          <Link href="/" className="text-xl font-bold tracking-tighter flex items-center gap-2 text-slate-900 dark:text-white">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-500/20">TW</div>
-            <span>Tender<span className="text-blue-600">Watch</span></span>
+          <Link href="/" className="flex items-center gap-3 text-slate-900 dark:text-white">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-sm font-black text-white shadow-lg shadow-blue-500/20">TW</div>
+            <span className="text-base font-black tracking-tight">
+              Tender<span className="text-blue-600">Watch</span>
+            </span>
           </Link>
           
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-400">
             <Link href="#features" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t.nav.features}</Link>
             <Link href="#how" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t.nav.howItWorks}</Link>
+            <Link href="#faq" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t.nav.faq}</Link>
           </nav>
         </div>
 
@@ -39,6 +37,6 @@ export default function Header() {
           </Link>
         </div>
       </div>
-    </motion.header>
+    </header>
   );
 }

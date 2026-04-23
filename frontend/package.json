@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "clean:next-cache": "node ./scripts/clean-next-cache.mjs",
+    "dev:light": "npm run clean:next-cache && next dev",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",

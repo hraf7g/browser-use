@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import sys
-
 from src.jobs.run_all_sources_job_service import run_all_sources_job
 
 

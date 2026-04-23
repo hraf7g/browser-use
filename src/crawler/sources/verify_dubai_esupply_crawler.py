@@ -4,8 +4,8 @@ import asyncio
 import sys
 
 from src.crawler.sources.dubai_esupply_crawler import (
-    DubaiESupplyCrawlResult,
     DubaiESupplyCrawlerError,
+    DubaiESupplyCrawlResult,
     run_dubai_esupply_crawl,
 )
 

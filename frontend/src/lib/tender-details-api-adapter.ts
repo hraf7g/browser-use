@@ -3,6 +3,8 @@ import { apiClient } from './api-client';
 export interface TenderDetailsNotificationState {
   match_created_at: string | null;
   matched_keywords: string[];
+  matched_country_codes: string[];
+  matched_industry_codes: string[];
   instant_alert_sent: boolean;
   instant_alert_sent_at: string | null;
   daily_brief_sent: boolean;
@@ -30,13 +32,17 @@ export interface TenderDetailsApiResponse {
   source_id: string;
   source_name?: string | null;
   source_url: string;
-  closing_date: string;
+  closing_date: string | null;
   opening_date?: string | null;
   published_at?: string | null;
   tender_ref?: string | null;
   category?: string | null;
+  industry_codes: string[];
+  primary_industry_code?: string | null;
   ai_summary?: string | null;
   matched_keywords: string[];
+  matched_country_codes: string[];
+  matched_industry_codes: string[];
   notification_state: TenderDetailsNotificationState;
   activity_timeline: TenderDetailsTimelineItem[];
 }

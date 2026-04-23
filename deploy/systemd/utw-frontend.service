@@ -1,0 +1,17 @@
+[Unit]
+Description=UAE Tender Watch Frontend
+After=network.target
+
+[Service]
+Type=simple
+User=utw
+Group=utw
+WorkingDirectory=/opt/utw/current/frontend
+EnvironmentFile=/etc/utw/frontend.env
+ExecStart=/usr/bin/env npm run start
+Restart=always
+RestartSec=5
+TimeoutStartSec=30
+
+[Install]
+WantedBy=multi-user.target

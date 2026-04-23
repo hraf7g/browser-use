@@ -1,7 +1,7 @@
 import { getPublicApiBaseUrl } from '@/lib/runtime-env';
 
 type FetchOptions = RequestInit & {
-  params?: Record<string, string | number | undefined>;
+  params?: Record<string, string | number | boolean | undefined>;
 };
 
 const DEFAULT_REQUEST_INIT: RequestInit = {

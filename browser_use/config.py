@@ -170,6 +170,10 @@ class OldConfig:
 	def DEFAULT_LLM(self) -> str:
 		return os.getenv('DEFAULT_LLM', '')
 
+	@property
+	def BROWSER_USE_REQUIRE_EXPLICIT_LLM(self) -> bool:
+		return os.getenv('BROWSER_USE_REQUIRE_EXPLICIT_LLM', 'false').lower()[:1] in 'ty1'
+
 	# Runtime hints
 	@property
 	def IN_DOCKER(self) -> bool:
@@ -220,6 +224,7 @@ class FlatEnvConfig(BaseSettings):
 	AZURE_OPENAI_KEY: str = Field(default='')
 	SKIP_LLM_API_KEY_VERIFICATION: bool = Field(default=False)
 	DEFAULT_LLM: str = Field(default='')
+	BROWSER_USE_REQUIRE_EXPLICIT_LLM: bool = Field(default=False)
 
 	# Runtime hints
 	IN_DOCKER: bool | None = Field(default=None)

@@ -1,5 +1,6 @@
 const DEFAULT_API_BASE_URL = 'http://localhost:8000';
 const DEFAULT_AUTH_COOKIE_NAME = 'utw_access_token';
+const COOKIE_NAME_PATTERN = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/;
 
 function normalizeAbsoluteUrl(value: string): string {
   const trimmed = value.trim();
@@ -8,7 +9,16 @@ function normalizeAbsoluteUrl(value: string): string {
   }
 
   const url = new URL(trimmed);
-  return url.toString().replace(/\/$/, '');
+  const normalized = url.toString().replace(/\/$/, '');
+
+  if (process.env.NODE_ENV === 'production') {
+    const isLoopbackHost = ['localhost', '127.0.0.1'].includes(url.hostname);
+    if (!isLoopbackHost && url.protocol !== 'https:') {
+      throw new Error('NEXT_PUBLIC_API_URL must use https:// outside local development');
+    }
+  }
+
+  return normalized;
 }
 
 function resolvePublicApiBaseUrl(): string {
@@ -26,7 +36,12 @@ function resolvePublicAuthCookieName(): string {
     throw new Error('NEXT_PUBLIC_AUTH_COOKIE_NAME must be set in production');
   }
 
-  return (configured ?? DEFAULT_AUTH_COOKIE_NAME).trim() || DEFAULT_AUTH_COOKIE_NAME;
+  const cookieName = (configured ?? DEFAULT_AUTH_COOKIE_NAME).trim() || DEFAULT_AUTH_COOKIE_NAME;
+  if (!COOKIE_NAME_PATTERN.test(cookieName)) {
+    throw new Error('NEXT_PUBLIC_AUTH_COOKIE_NAME must be a valid cookie token');
+  }
+
+  return cookieName;
 }
 
 export function getPublicApiBaseUrl(): string {

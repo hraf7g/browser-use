@@ -1,0 +1,11 @@
+[Unit]
+Description=UAE Tender Watch crawler batch
+After=network.target
+
+[Service]
+Type=oneshot
+User=utw
+Group=utw
+WorkingDirectory=/opt/utw/current
+EnvironmentFile=/etc/utw/backend.env
+ExecStart=/opt/utw/current/.venv/bin/python -m src.jobs.run_all_sources_once

@@ -3,10 +3,12 @@ from __future__ import annotations
 from datetime import datetime
 
 from src.db.session import get_session_factory
-from src.jobs.job_lock_service import acquire_named_job_lock, release_named_job_lock
+from src.jobs.job_lock_service import acquire_named_job_lock, finalize_named_job_lock
 from src.matching.tender_matching_service import match_tenders_updated_since
+from src.shared.logging.logger import get_logger
 
 MATCH_RECENT_TENDERS_JOB_LOCK_NAME = "utw:match_recent_tenders_job"
+logger = get_logger(__name__)
 
 
 class MatchRecentTendersJobAlreadyRunningError(RuntimeError):
@@ -30,6 +32,7 @@ def run_match_recent_tenders_job(
 
     with session_factory() as session:
         lock_acquired = False
+        active_error: Exception | None = None
         try:
             lock_acquired = acquire_named_job_lock(
                 session,
@@ -46,16 +49,15 @@ def run_match_recent_tenders_job(
             )
             session.commit()
             return matches_created
-        except Exception:
+        except Exception as exc:
+            active_error = exc
             session.rollback()
             raise
         finally:
             if lock_acquired:
-                released = release_named_job_lock(
+                finalize_named_job_lock(
                     session,
                     job_name=MATCH_RECENT_TENDERS_JOB_LOCK_NAME,
+                    logger=logger,
+                    active_error=active_error,
                 )
-                if not released:
-                    raise RuntimeError(
-                        "expected recent-tenders job lock release to succeed"
-                    )
