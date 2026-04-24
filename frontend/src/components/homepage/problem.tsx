@@ -8,7 +8,7 @@ export default function Problem() {
   const icons = [AlertCircle, Clock, Zap];
 
   return (
-    <section className="bg-slate-50 py-20 dark:bg-slate-950">
+    <section id="solutions" className="bg-slate-50 py-20 dark:bg-slate-950">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <span className={`text-sm font-bold text-emerald-600 ${lang === 'ar' ? 'tracking-normal' : 'uppercase tracking-[0.24em]'}`}>

@@ -24,7 +24,7 @@ export default function LiveActivityPreview() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section className="bg-slate-50 py-24 dark:bg-slate-900">
+    <section id="activity" className="bg-slate-50 py-24 dark:bg-slate-900">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
 

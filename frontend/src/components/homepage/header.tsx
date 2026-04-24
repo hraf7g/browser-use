@@ -21,7 +21,8 @@ export default function Header() {
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-400">
             <Link href="#features" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t.nav.features}</Link>
             <Link href="#how" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t.nav.howItWorks}</Link>
-            <Link href="#faq" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t.nav.faq}</Link>
+            <Link href="#solutions" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t.nav.solutions}</Link>
+            <Link href="#activity" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t.homepageActivity.badge}</Link>
           </nav>
         </div>
 

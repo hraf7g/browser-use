@@ -8,8 +8,10 @@ import { Search } from 'lucide-react';
 export default function Footer() {
   const { t } = useTranslation();
   const links = [
+    { label: t.nav.features, href: '#features' },
     { label: t.nav.howItWorks, href: '#how' },
-    { label: t.nav.faq, href: '#faq' },
+    { label: t.nav.solutions, href: '#solutions' },
+    { label: t.homepageActivity.badge, href: '#activity' },
     { label: t.nav.signIn, href: '/login' },
     { label: t.nav.getStarted, href: '/signup' },
   ];
