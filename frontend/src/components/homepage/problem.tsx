@@ -1,43 +1,55 @@
-'use client';
+const problemSignals = [
+  {
+    title: 'Fragmented source coverage',
+    body: 'Teams still depend on manual portal checks, inbox chains, and remembered bookmarks across ministries, municipalities, and private issuers.',
+  },
+  {
+    title: 'Late qualification decisions',
+    body: 'By the time someone reads the documents, translates the scope, and identifies the owner, the response window is already shrinking.',
+  },
+  {
+    title: 'Low-confidence routing',
+    body: 'Commercial, bid, and operations teams receive noisy opportunities without fit context, deadline risk, or a common summary to act on.',
+  },
+] as const;
 
-import { useTranslation } from '@/context/language-context';
-import { AlertCircle, Clock, Zap } from 'lucide-react';
+const problemMetrics = [
+  { value: '40+', label: 'tender sources tracked in one operating layer' },
+  { value: 'AR ↔ EN', label: 'requirements normalized into a single brief' },
+  { value: '< 5 min', label: 'from signal capture to routed opportunity' },
+] as const;
 
 export default function Problem() {
-  const { t, lang } = useTranslation();
-  const icons = [AlertCircle, Clock, Zap];
-
   return (
-    <section id="solutions" className="bg-slate-50 py-20 dark:bg-slate-950">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mx-auto mb-14 max-w-3xl text-center">
-          <span className={`text-sm font-bold text-emerald-600 ${lang === 'ar' ? 'tracking-normal' : 'uppercase tracking-[0.24em]'}`}>
-            {t.problem.tag}
-          </span>
-          <h2 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
-            {t.problem.title}
-          </h2>
+    <section className="section-shell" id="workflow">
+      <div className="section-inner problem-layout">
+        <div className="problem-copy">
+          <span className="section-label">Why procurement teams miss the right bids</span>
+          <h2 className="section-title">Most tender workflows break before the team even decides to pursue.</h2>
+          <p className="section-lead">
+            The issue is rarely access to information. It is the delay between discovery, qualification,
+            translation, and ownership. Tender Watch compresses that entire gap into a live operating
+            layer, so teams see what matters early enough to respond with intent.
+          </p>
+
+          <div className="problem-metrics" aria-label="Tender Watch outcome metrics">
+            {problemMetrics.map((metric) => (
+              <div key={metric.label} className="problem-metric framed-panel">
+                <strong>{metric.value}</strong>
+                <span>{metric.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {t.problem.items.map((item: { title: string; desc: string }, i: number) => {
-            const Icon = icons[i % icons.length];
-
-            return (
-              <div
-                key={i}
-                className="group rounded-3xl border border-slate-200 bg-white p-8 transition-all hover:border-emerald-500/50 hover:shadow-2xl hover:shadow-emerald-500/5 dark:border-slate-800 dark:bg-slate-900"
-              >
-                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 transition-transform group-hover:scale-110 dark:bg-emerald-900/20">
-                  <Icon className="text-emerald-600" size={28} />
-                </div>
-                <h3 className="mb-4 text-xl font-bold text-slate-900 dark:text-white">{item.title}</h3>
-                <p className={`text-slate-600 dark:text-slate-400 ${lang === 'ar' ? 'leading-8' : 'leading-7'}`}>
-                  {item.desc}
-                </p>
-              </div>
-            );
-          })}
+        <div className="problem-stack">
+          {problemSignals.map((signal, index) => (
+            <article key={signal.title} className="problem-card framed-panel">
+              <span className="problem-card__index mono-text">0{index + 1}</span>
+              <h3>{signal.title}</h3>
+              <p>{signal.body}</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>

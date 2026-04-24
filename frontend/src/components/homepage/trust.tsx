@@ -1,33 +1,40 @@
-'use client';
+const trustPoints = [
+  'Built for enterprise procurement and public-sector response workflows',
+  'Structured around bilingual GCC tender realities, not generic lead feeds',
+  'Designed to create confidence before routing decisions are made',
+] as const;
 
-import { useTranslation } from '@/context/language-context';
-
-const trustPoints = {
-  en: ['Real backend auth', 'Arabic + English', 'RTL / LTR aware', 'Production-ready cookies'],
-  ar: ['مصادقة حقيقية', 'عربي + إنجليزي', 'دعم RTL / LTR', 'كوكيز جاهزة للإنتاج'],
-} as const;
+const trustMetrics = [
+  { value: 'Enterprise-ready', label: 'built for procurement rigor and team coordination' },
+  { value: 'Signal-first', label: 'focus on actionable change, not static listings' },
+  { value: 'Bilingual-native', label: 'Arabic and English operating context together' },
+] as const;
 
 export default function Trust() {
-  const { t, lang } = useTranslation();
-  const points = trustPoints[lang];
-
   return (
-    <section className="py-20 border-y border-slate-100 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">
-            {t.trust.title}
-          </h2>
-          <p className="mt-4 text-slate-500 dark:text-slate-400">{t.trust.subtitle}</p>
+    <section className="section-shell" id="trust">
+      <div className="section-inner trust-layout framed-panel">
+        <div className="trust-copy">
+          <span className="section-label">Why teams can trust the system</span>
+          <h2 className="section-title">Clarity, timing, and operational confidence built into the experience.</h2>
+          <p className="section-lead">
+            The strongest procurement platforms do more than collect data. They help teams trust the
+            signal, understand why it matters, and move with less hesitation. Tender Watch is being shaped
+            around that standard.
+          </p>
+
+          <ul className="trust-points">
+            {trustPoints.map((point) => (
+              <li key={point}>{point}</li>
+            ))}
+          </ul>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          {points.map((point) => (
-            <div
-              key={point}
-              className="rounded-2xl border border-slate-200 bg-white px-4 py-4 text-center text-sm font-semibold text-slate-700 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200"
-            >
-              {point}
+        <div className="trust-metrics">
+          {trustMetrics.map((metric) => (
+            <div key={metric.label} className="trust-metric">
+              <strong>{metric.value}</strong>
+              <span>{metric.label}</span>
             </div>
           ))}
         </div>
