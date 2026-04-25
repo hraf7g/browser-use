@@ -994,8 +994,31 @@ export const translations = {
       secondary: 'Sign in instead',
     },
     footer: {
-      copyright: '© 2026 Tender Watch. All rights reserved.',
-      links: ['Privacy', 'Terms', 'Contact']
+      brand: 'Tender Watch',
+      description: 'The leading platform in the Middle East for monitoring government and private tenders using advanced AI.',
+      quickLinksTitle: 'Quick Links',
+      quickLinks: {
+        howItWorks: 'How it Works',
+        sources: 'Sources',
+        pricing: 'Pricing',
+        blog: 'Blog'
+      },
+      regionsTitle: 'Supported Regions',
+      regions: [
+        'United Arab Emirates',
+        'Saudi Arabia',
+        'Qatar',
+        'Bahrain'
+      ],
+      contactTitle: 'Contact Us',
+      contact: {
+        email: 'info@tenderwatch.ai',
+        phone: '+971 4 000 0000',
+        address: 'Dubai, UAE'
+      },
+      copyright: '© 2024 Tender Watch. All rights reserved.',
+      privacy: 'Privacy Policy',
+      terms: 'Terms of Use'
     },
     homepageBilingual: {
       eyebrow: 'Built for MENA procurement',
@@ -1056,6 +1079,163 @@ export const translations = {
         { icon: 'Target', title: 'Find relevant tenders faster', desc: 'AI analysis filters noise and surfaces contracts that match your business — in English and Arabic.' },
         { icon: 'Zap', title: 'Move before competitors', desc: 'Instant alerts and daily briefs help your team respond while opportunities are still fresh and open.' },
       ],
+    },
+    coverage: {
+      title: 'We cover the largest markets with the power of',
+      titleAccent: 'AI',
+      description: 'One platform replaces manual tracking, keeping you one step ahead in the most important government procurement markets in the Arabian Gulf.',
+      sourcesTitle: 'Currently Supported Markets',
+      sourcesSubtitle: 'Expand your business easily across the GCC countries through our smart agent.',
+      newMarkets: 'New Markets & Sources',
+      exploring: 'Exploring...',
+    },
+    coverageSources: [
+      { country: 'Saudi Arabia', portals: ['Etimad', 'MISA'], flag: '🇸🇦' },
+      { country: 'UAE', portals: ['Dubai eSupply', 'Federal MOF', 'Abu Dhabi GPG', 'Etihad Rail'], flag: '🇦🇪' },
+      { country: 'Qatar', portals: ['Monaqasat'], flag: '🇶🇦' },
+      { country: 'Oman', portals: ['Oman Tender Board'], flag: '🇴🇲' },
+      { country: 'Bahrain', portals: ['Bahrain Tender Board'], flag: '🇧🇭' }
+    ],
+    scrollingSources: [
+      "🇸🇦 Saudi Etimad",
+      "🇦🇪 Dubai eSupply",
+      "🇶🇦 Qatar Monaqasat",
+      "🇴🇲 Oman Tender Board",
+      "🇧🇭 Bahrain Tender Board",
+      "🇦🇪 Federal MOF",
+      "🇸🇦 Saudi MISA",
+    ],
+    featuresGrid: [
+      { title: 'Independent Smart Browsing', description: 'The smart agent navigates government portals like a human, bypassing complexities to reach hidden opportunities.' },
+      { title: 'Bilingual Analysis', description: 'Professional processing of tender documents in both Arabic and English to accurately extract conditions.' },
+      { title: 'Accurate AI Matching', description: 'The system matches opportunities with your company profile to give you an accurate "Match Percentage" for each tender.' },
+      { title: 'Instant Alerts', description: 'Be the first to know. Get instant notifications as soon as a tender that suits your business is released.' },
+      { title: 'Comprehensive MENA Dashboard', description: 'Say goodbye to browsing dozens of sites daily. Monitor the most important Gulf markets from a single screen.' },
+      { title: 'Reliable & Verified Data', description: 'Avoid human error. AI ensures the accuracy of deadlines and preliminary guarantee values.' }
+    ],
+    bilingualPanel: {
+      title: 'The power of bilingual analysis',
+      subtitle: 'The system analyzes complex Arabic documents and converts them into structured English data with pinpoint accuracy.',
+      arCardTag: 'Arabic Text Analysis',
+      arCardLogo: 'Logo',
+      arCardBuyer: 'Buyer: Roads and Transport Authority',
+      arCardSubject: 'Tender Subject',
+      arCardValue: 'Estimated Budget: 5,000,000 AED',
+      arCardDate: 'Deadline: June 15',
+      arCardText: 'Registered suppliers must submit their technical and financial proposals through the approved portal, along with the required bank guarantee of 2% of the bid value...',
+      centerTag: 'Smart Analysis',
+      enCardTag: 'Structured English Output',
+      enCardTitle: 'Extraction Result',
+      buyerLabel: 'Buyer Entity',
+      buyerValue: 'Roads and Transport Authority (RTA)',
+      valueLabel: 'Estimated Value',
+      valueValue: '5,000,000 AED',
+      dateLabel: 'Closing Date',
+      dateValue: 'June 15, 2026',
+      catLabel: 'Category',
+      catValue: 'Infrastructure & Maintenance',
+      matchStatus: 'Perfect Match',
+      matchReason: 'Matches your company profile',
+      matchScore: '87%'
+    },
+    liveActivityStream: {
+      title: 'Live System Activity',
+      subtitle: 'The smart agent works around the clock, monitoring thousands of pages and processing data instantly to provide you with the latest opportunities before anyone else.',
+      scannedPagesCount: '12,400+',
+      scannedPagesLabel: 'Pages Scanned Daily',
+      monitoredSourcesCount: '850+',
+      monitoredSourcesLabel: 'Government Sources Monitored',
+      events: [
+        { time: '09:12', text: 'Dubai eSupply Portal Scanned', sub: '247 pages successfully scanned', status: 'Complete', color: 'emerald' },
+        { time: '09:13', text: 'New Tender Detected: Infrastructure Projects - Abu Dhabi', sub: 'Reference: AD-INF-3922', status: 'New', color: 'blue' },
+        { time: '09:13', text: 'Arabic Content Analysis', sub: '4 pages — 3 key items extracted', status: 'Complete', color: 'emerald' },
+        { time: '09:14', text: 'Smart Match Created', sub: 'Compatibility with company profile: 92%', status: 'Match', color: 'purple' },
+        { time: '09:14', text: 'Instant Alert Sent to Team Members', sub: 'Via email and mobile app', status: 'Sent', color: 'amber' },
+        { time: '09:30', text: 'Daily Brief Ready to Send', sub: '3 new tenders — 1 high priority', status: 'Delivered', color: 'teal' },
+      ]
+    },
+    productPreviewHome: {
+      title: 'Smart and Comprehensive Dashboard',
+      subtitle: 'Complete management of searches and alerts, with a clear view of all tenders matching your company in one place.',
+      sidebar: {
+        tenders: 'Tenders',
+        sources: 'Sources',
+        alerts: 'Alerts',
+        activity: 'Activity',
+        settings: 'Settings'
+      },
+      topbar: {
+        lastCheck: 'Last check:',
+        timeAgo: '3 mins ago',
+        systemStatus: 'System Status: Active'
+      },
+      main: {
+        suggested: 'Suggested Tenders',
+        basedOn: 'Based on your business profile and keywords',
+        filter: 'Filter',
+        export: 'Export',
+        tenderTitle: 'Supply and installation of solar energy systems project - Phase ',
+        buyer: 'Buyer: Dubai Municipality',
+        ref: 'Ref: #DXB-202',
+        match: 'Match 9',
+        percent: '%',
+        endsIn: 'Ends in 1',
+        may: ' May'
+      },
+      alert: {
+        now: 'Now',
+        newAlert: 'New Alert',
+        alertDesc: 'A high priority tender matching your services has been detected in the portal.',
+        viewDetails: 'View Details'
+      }
+    },
+    finalCTA: {
+      title: 'Start monitoring tenders today',
+      subtitle: 'Never miss another contract opportunity. The system works 24/7 to ensure you stay ahead.',
+      subtext: '24/7 automated monitoring across MENA procurement sources',
+      primaryBtn: 'Start now for free',
+      secondaryBtn: 'Contact us',
+      stats: [
+        { value: '24/7', label: 'Continuous Monitoring' },
+        { value: '100%', label: 'Official Coverage' },
+        { value: '0', label: 'Missed Opportunities' }
+      ]
+    },
+    navbar: {
+      brand: 'Tender Watch',
+      howItWorks: 'How it Works',
+      sources: 'Sources',
+      pricing: 'Pricing',
+      login: 'Sign In',
+      startFree: 'Start Free',
+    },
+    agentSimulation: {
+      cursorLabel: 'Smart Agent',
+      tenders: [
+        { id: 1, title: 'Technical Development Project', source: 'Dubai eSupply', category: 'IT', date: '2026-05-10', value: '1,200,000 AED' },
+        { id: 2, title: 'Public Roads Maintenance', source: 'Etihad Rail', category: 'Infrastructure', date: '2026-06-15', value: '5,500,000 AED' },
+        { id: 3, title: 'Engineering Consulting', source: 'DMT Abu Dhabi', category: 'Professional Services', date: '2026-05-20', value: '850,000 AED' },
+        { id: 4, title: 'Medical Equipment Supply', source: 'SEHA', category: 'Healthcare', date: '2026-05-30', value: '2,100,000 AED' },
+        { id: 5, title: 'Public Parks Landscaping', source: 'Dubai Municipality', category: 'Public Services', date: '2026-06-01', value: '450,000 AED' }
+      ],
+      emptyState: 'Tenders and alerts will appear here',
+      activeTendersTitle: 'Active Tenders',
+      tableBuyer: 'Buyer Entity',
+      tableCategory: 'Category',
+      tableCloseDate: 'Close Date',
+      tableTitle: 'Title',
+      matchBadge: 'Match 92%',
+      tenderRef: '#38472',
+      sampleTitle: 'Engineering Consulting - Infrastructure Project',
+      sampleBuyer: 'Buyer:',
+      sampleBuyerVal: 'DMT Abu Dhabi',
+      sampleBudget: 'Budget:',
+      sampleBudgetVal: '850,000 AED',
+      sampleClose: 'Close:',
+      sampleCloseVal: 'May 20, 2026',
+      btnAnalyze: 'Analyze Now',
+      btnSave: 'Save',
+      alertMessage: 'Alert: High match opportunity detected!'
     },
   },
   ar: {
@@ -1262,19 +1442,6 @@ export const translations = {
         instantAlertSent: 'تم إرسال تنبيه فوري',
         dailyBriefSent: 'تم إرسال الملخص اليومي',
       }
-    },
-    howItWorks: {
-      eyebrow: 'ما يفعله Tender Watch',
-      title: 'أربع خطوات من البوابة إلى صندوق بريدك',
-      subtitle: 'يستبدل Tender Watch الفحص اليدوي للبوابات بسير عمل آلي ومراقَب مبني لفرق المشتريات في الشرق الأوسط.',
-      supporting: '',
-      stepLabel: 'الخطوة',
-      steps: [
-        { n: '٠١', icon: 'Globe2', t: 'يتصفح المصادر الرسمية', d: 'يراقب وكلاء الذكاء الاصطناعي بوابات المشتريات وصفحات المناقصات في المنطقة باستمرار.' },
-        { n: '٠٢', icon: 'FileSearch', t: 'يكتشف العقود الجديدة', d: 'يتم استخراج المناقصات الجديدة وتطبيعها والتحقق من جودتها قبل دخولها إلى تدفقك.' },
-        { n: '٠٣', icon: 'Fingerprint', t: 'يطابق مع نشاطك', d: 'يقارن Tender Watch الفرص بملف شركتك بالإنجليزية والعربية.' },
-        { n: '٠٤', icon: 'BellRing', t: 'يُنبّه فريقك', d: 'تصلك تنبيهات فورية وملخصات يومية عند ظهور مناقصات مناسبة — قبل المنافسين.' }
-      ]
     },
     faq: {
       title: 'أسئلة شائعة',
@@ -2046,8 +2213,31 @@ export const translations = {
     },
 
     footer: {
-      copyright: '© ٢٠٢٦ Tender Watch. جميع الحقوق محفوظة.',
-      links: ['الخصوصية', 'الشروط', 'اتصل بنا']
+      brand: 'تيندر ووتش',
+      description: 'المنصة الرائدة في الشرق الأوسط لمراقبة المناقصات الحكومية والخاصة باستخدام الذكاء الاصطناعي المتطور.',
+      quickLinksTitle: 'الروابط السريعة',
+      quickLinks: {
+        howItWorks: 'كيف يعمل',
+        sources: 'المصادر',
+        pricing: 'التسعير',
+        blog: 'المدونة'
+      },
+      regionsTitle: 'المناطق المدعومة',
+      regions: [
+        'الإمارات العربية المتحدة',
+        'المملكة العربية السعودية',
+        'دولة قطر',
+        'مملكة البحرين'
+      ],
+      contactTitle: 'تواصل معنا',
+      contact: {
+        email: 'info@tenderwatch.ai',
+        phone: '+971 4 000 0000',
+        address: 'دبي، الإمارات العربية المتحدة'
+      },
+      copyright: '© ٢٠٢٤ تيندر ووتش. جميع الحقوق محفوظة.',
+      privacy: 'سياسة الخصوصية',
+      terms: 'شروط الاستخدام'
     },
     homepageBilingual: {
       eyebrow: 'مبني لمشتريات الشرق الأوسط',
@@ -2114,6 +2304,176 @@ export const translations = {
       desc: 'أنشئ حسابك، حدد ملف شركتك، ودع Tender Watch يتولى التصفح والتحليل والمطابقة وإرسال التنبيهات.',
       button: 'ابدأ مراقبة المناقصات',
       secondary: 'تسجيل الدخول بدلاً من ذلك',
+    },
+    coverage: {
+      title: 'نغطي أكبر الأسواق بقوة',
+      titleAccent: 'الذكاء الاصطناعي',
+      description: 'منصة واحدة تغنيك عن المتابعة اليدوية، لتبقيك متقدماً بخطوة في أهم أسواق المشتريات الحكومية في الخليج العربي.',
+      sourcesTitle: 'الأسواق المدعومة حالياً',
+      sourcesSubtitle: 'توسع بأعمالك بسهولة عبر دول مجلس التعاون الخليجي من خلال وكيلنا الذكي.',
+      newMarkets: 'أسواق ومصادر جديدة',
+      exploring: 'جاري الاستكشاف...',
+    },
+    coverageSources: [
+      { country: 'السعودية', portals: ['اعتماد', 'وزارة الاستثمار'], flag: '🇸🇦' },
+      { country: 'الإمارات', portals: ['التوريد الإلكتروني', 'وزارة المالية', 'مشتريات أبوظبي', 'الاتحاد للقطارات'], flag: '🇦🇪' },
+      { country: 'قطر', portals: ['مناقصات'], flag: '🇶🇦' },
+      { country: 'عُمان', portals: ['مجلس المناقصات'], flag: '🇴🇲' },
+      { country: 'البحرين', portals: ['مجلس المناقصات'], flag: '🇧🇭' }
+    ],
+    scrollingSources: [
+      "🇸🇦 منصة اعتماد",
+      "🇦🇪 التوريد الإلكتروني",
+      "🇶🇦 مناقصات قطر",
+      "🇴🇲 مجلس المناقصات",
+      "🇧🇭 مجلس المناقصات",
+      "🇦🇪 وزارة المالية",
+      "🇸🇦 وزارة الاستثمار",
+    ],
+    featuresGrid: [
+      { title: 'تصفح ذكي مستقل', description: 'يتنقل الوكيل الذكي في البوابات الحكومية كالإنسان، ويتجاوز التعقيدات للوصول للفرص المخفية.' },
+      { title: 'تحليل ثنائي اللغة', description: 'معالجة احترافية لوثائق المناقصات باللغتين العربية والإنجليزية لاستخراج الشروط بدقة.' },
+      { title: 'مطابقة دقيقة عبر الذكاء الاصطناعي', description: 'يقوم النظام بمطابقة الفرص مع ملف شركتك ليعطيك "نسبة تطابق" دقيقة لكل مناقصة.' },
+      { title: 'تنبيهات لحظية', description: 'كن أول من يعلم. احصل على إشعارات فورية بمجرد طرح مناقصة تناسب أعمالك.' },
+      { title: 'لوحة تحكم شاملة للشرق الأوسط', description: 'وداعاً لتصفح عشرات المواقع يومياً. راقب أهم أسواق الخليج من شاشة واحدة.' },
+      { title: 'بيانات موثوقة ومحققة', description: 'تجنب الأخطاء البشرية. الذكاء الاصطناعي يضمن دقة المواعيد النهائية وقيمة الضمان الابتدائي.' }
+    ],
+    howItWorks: {
+      eyebrow: 'ماذا يفعل وكيلنا',
+      title: 'أربع خطوات من البوابة إلى بريدك',
+      subtitle: 'يستبدل النظام التصفح اليدوي بسير عمل آلي مصمم خصيصاً لفرق المشتريات في الشرق الأوسط.',
+      supporting: '',
+      stepLabel: 'خطوة',
+      steps: [
+        { n: '01', icon: 'Globe2', t: 'يتصفح المصادر الرسمية', d: 'البوابات الحكومية في الإمارات، السعودية، وسائر دول المنطقة على مدار الساعة.' },
+        { n: '02', icon: 'FileSearch', t: 'يكتشف العقود', d: 'مناقصات ومشاريع جديدة يتم تصفيتها ومطابقتها فور صدورها.' },
+        { n: '03', icon: 'Fingerprint', t: 'يحلل المحتوى', d: 'باللغتين العربية والإنجليزية، ويستخرج البنود الرئيسية والقيم التقديرية بدقة.' },
+        { n: '04', icon: 'BellRing', t: 'يُنبّه فريقك', d: 'تنبيهات فورية عبر البريد والواتساب وملخصات يومية شاملة لجميع الفرص.' }
+      ]
+    },
+    bilingualPanel: {
+      title: 'قوة التحليل ثنائي اللغة',
+      subtitle: 'يقوم النظام بتحليل المستندات العربية المعقدة وتحويلها إلى بيانات منظمة باللغتين بدقة متناهية.',
+      arCardTag: 'تحليل نص عربي',
+      arCardLogo: 'شعار',
+      arCardBuyer: 'الجهة المعلنة: هيئة الطرق والمواصلات',
+      arCardSubject: 'موضوع المناقصة',
+      arCardValue: 'الميزانية التقديرية: ٥,٠٠٠,٠٠٠ د.إ',
+      arCardDate: 'آخر موعد للتقديم: ١٥ يونيو',
+      arCardText: 'يجب على الموردين المسجلين تقديم عروضهم الفنية والمالية من خلال البوابة الإلكترونية المعتمدة، مع إرفاق الضمان البنكي المطلوب بنسبة ٢٪ من قيمة العطاء...',
+      centerTag: 'تحليل ذكي',
+      enCardTag: 'مخرجات إنجليزية منظمة',
+      enCardTitle: 'نتيجة الاستخراج',
+      buyerLabel: 'الجهة المشترية',
+      buyerValue: 'هيئة الطرق والمواصلات',
+      valueLabel: 'القيمة التقديرية',
+      valueValue: '٥,٠٠٠,٠٠٠ درهم',
+      dateLabel: 'تاريخ الإغلاق',
+      dateValue: '١٥ يونيو ٢٠٢٦',
+      catLabel: 'الفئة',
+      catValue: 'البنية التحتية والصيانة',
+      matchStatus: 'تطابق ممتاز',
+      matchReason: 'يطابق ملف شركتك',
+      matchScore: '٨٧٪'
+    },
+    liveActivityStream: {
+      title: 'نشاط مباشر للنظام',
+      subtitle: 'يعمل الوكيل الذكي على مدار الساعة، يراقب آلاف الصفحات ويقوم بمعالجة البيانات فورياً لتزويدك بأحدث الفرص قبل الجميع.',
+      scannedPagesCount: '١٢,٤٠٠+',
+      scannedPagesLabel: 'صفحة مفحوصة يومياً',
+      monitoredSourcesCount: '٨٥٠+',
+      monitoredSourcesLabel: 'مصدر حكومي مراقب',
+      events: [
+        { time: '09:12', text: 'تم فحص Dubai eSupply Portal', sub: '٢٤٧ صفحة تم مسحها بنجاح', status: 'مكتمل', color: 'emerald' },
+        { time: '09:13', text: 'تم اكتشاف مناقصة جديدة: مشاريع بنية تحتية - أبوظبي', sub: 'رقم المرجع: AD-INF-3922', status: 'جديد', color: 'blue' },
+        { time: '09:13', text: 'تحليل المحتوى العربي', sub: '٤ صفحات — ٣ بنود رئيسية مستخرجة', status: 'مكتمل', color: 'emerald' },
+        { time: '09:14', text: 'تم إنشاء مطابقة ذكية للمناقصة', sub: 'نسبة التوافق مع ملف الشركة: ٩٢٪', status: 'مطابقة', color: 'purple' },
+        { time: '09:14', text: 'تم إرسال تنبيه فوري لأعضاء الفريق', sub: 'عبر البريد الإلكتروني وتطبيق الجوال', status: 'مُرسَل', color: 'amber' },
+        { time: '09:30', text: 'الملخص اليومي جاهز للإرسال', sub: '٣ مناقصات جديدة — ١ عالية الأولوية', status: 'تم التسليم', color: 'teal' },
+      ]
+    },
+    productPreviewHome: {
+      title: 'لوحة تحكم ذكية وشاملة',
+      subtitle: 'إدارة كاملة لعمليات البحث والتنبيهات، مع رؤية واضحة لجميع المناقصات المطابقة لشركتك في مكان واحد.',
+      sidebar: {
+        tenders: 'المناقصات',
+        sources: 'المصادر',
+        alerts: 'التنبيهات',
+        activity: 'النشاط',
+        settings: 'الإعدادات'
+      },
+      topbar: {
+        lastCheck: 'آخر فحص:',
+        timeAgo: 'منذ ٣ دقائق',
+        systemStatus: 'حالة النظام: نشط'
+      },
+      main: {
+        suggested: 'المناقصات المقترحة',
+        basedOn: 'بناءً على ملفك التجاري والكلمات المفتاحية',
+        filter: 'فلترة',
+        export: 'تصدير',
+        tenderTitle: 'مشروع توريد وتركيب أنظمة طاقة شمسية - المرحلة ',
+        buyer: 'الجهة: بلدية دبي',
+        ref: 'رقم: #DXB-202',
+        match: 'مطابقة ٩',
+        percent: '٪',
+        endsIn: 'تنتهي في ١',
+        may: ' مايو'
+      },
+      alert: {
+        now: 'الآن',
+        newAlert: 'تنبيه جديد',
+        alertDesc: 'تم اكتشاف مناقصة عالية الأولوية مطابقة لخدماتكم في بوابة ممارسة.',
+        viewDetails: 'عرض التفاصيل'
+      }
+    },
+    finalCTA: {
+      title: 'ابدأ مراقبة المناقصات اليوم',
+      subtitle: 'لا تفوتك فرصة عقد أخرى. يعمل النظام على مدار الساعة، ٧ أيام في الأسبوع ليضمن لك البقاء في المقدمة.',
+      subtext: 'مراقبة آلية على مدار الساعة للمصادر الحكومية في المنطقة',
+      primaryBtn: 'ابدأ الآن مجاناً',
+      secondaryBtn: 'تواصل معنا',
+      stats: [
+        { value: '٢٤/٧', label: 'مراقبة مستمرة' },
+        { value: '١٠٠٪', label: 'تغطية رسمية' },
+        { value: 'صفر', label: 'فرص ضائعة' }
+      ]
+    },
+    navbar: {
+      brand: 'تيندر ووتش',
+      howItWorks: 'كيف يعمل',
+      sources: 'المصادر',
+      pricing: 'التسعير',
+      login: 'تسجيل الدخول',
+      startFree: 'ابدأ مجاناً',
+    },
+    agentSimulation: {
+      cursorLabel: 'الوكيل الذكي',
+      tenders: [
+        { id: 1, title: 'مشروع تطوير تقني', source: 'Dubai eSupply', category: 'تقنية المعلومات', date: '2026-05-10', value: '1,200,000 AED' },
+        { id: 2, title: 'صيانة طرق عامة', source: 'Etihad Rail', category: 'بنية تحتية', date: '2026-06-15', value: '5,500,000 AED' },
+        { id: 3, title: 'خدمات استشارية هندسية', source: 'DMT Abu Dhabi', category: 'خدمات مهنية', date: '2026-05-20', value: '850,000 AED' },
+        { id: 4, title: 'توريد معدات طبية', source: 'SEHA', category: 'الرعاية الصحية', date: '2026-05-30', value: '2,100,000 AED' },
+        { id: 5, title: 'تنسيق حدائق عامة', source: 'Dubai Municipality', category: 'خدمات عامة', date: '2026-06-01', value: '450,000 AED' }
+      ],
+      emptyState: 'التنبيهات والمناقصات تظهر هنا',
+      activeTendersTitle: 'المناقصات النشطة',
+      tableBuyer: 'الجهة الحكومية',
+      tableCategory: 'الفئة',
+      tableCloseDate: 'تاريخ الإغلاق',
+      tableTitle: 'العنوان',
+      matchBadge: 'مطابقة ٩٢٪',
+      tenderRef: '#٣٨٤٧٢',
+      sampleTitle: 'خدمات استشارية هندسية - مشروع بنية تحتية',
+      sampleBuyer: 'الجهة:',
+      sampleBuyerVal: 'DMT Abu Dhabi',
+      sampleBudget: 'الميزانية:',
+      sampleBudgetVal: '٨٥٠,٠٠٠ AED',
+      sampleClose: 'الإغلاق:',
+      sampleCloseVal: '٢٠ مايو ٢٠٢٦',
+      btnAnalyze: 'تحليل الآن',
+      btnSave: 'حفظ',
+      alertMessage: 'تنبيه: تم اكتشاف فرصة مطابقة عالية!'
     },
   }
 };

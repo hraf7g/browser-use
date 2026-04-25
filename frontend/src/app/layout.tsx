@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
-import { LanguageProvider } from "@/context/language-context";
+import { IBM_Plex_Sans_Arabic } from "next/font/google";
 import { ThemeProvider } from "@/context/theme-context";
+import { LanguageProvider } from "@/context/language-context";
 import "./globals.css";
 
+const ibmPlexArabic = IBM_Plex_Sans_Arabic({
+  subsets: ["arabic"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-ibm-plex-arabic",
+});
+
 export const metadata: Metadata = {
-  title: "UAE Tender Watch | Official MENA Tender Intelligence",
+  title: "تيندر ووتش | منصة رصد المناقصات في الشرق الأوسط",
   description:
-    "Tender Watch monitors official procurement sources across MENA and helps businesses move faster on relevant tenders.",
+    "نظام ذكاء اصطناعي لمراقبة المناقصات، يكتشف العقود الجديدة، ويحلل المحتوى، ويرسل تنبيهات فورية.",
+  keywords: ["مناقصات", "الشرق الأوسط", "ذكاء اصطناعي", "المشتريات الحكومية", "Tender Watch", "MENA Procurement"],
 };
 
 export default function RootLayout({
@@ -15,8 +23,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="antialiased min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-50">
+    <html lang="ar" dir="rtl" suppressHydrationWarning className={ibmPlexArabic.variable}>
+      <body className="antialiased min-h-screen selection:bg-primary/20">
         <ThemeProvider>
           <LanguageProvider>
             {children}

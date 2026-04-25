@@ -178,6 +178,7 @@ export default function DashboardPage() {
   }, [t.dashboard.refresh.panelError]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void loadDashboard();
   }, [loadDashboard]);
 
