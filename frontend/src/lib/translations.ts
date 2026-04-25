@@ -1198,7 +1198,7 @@ export const translations = {
       stats: [
         { value: '24/7', label: 'Continuous Monitoring' },
         { value: '100%', label: 'Official Coverage' },
-        { value: '0', label: 'Missed Opportunities' }
+        { value: '100%', label: 'Capture Rate' }
       ]
     },
     navbar: {
@@ -1236,6 +1236,39 @@ export const translations = {
       btnAnalyze: 'Analyze Now',
       btnSave: 'Save',
       alertMessage: 'Alert: High match opportunity detected!'
+    },
+    pricing: {
+      title: 'Simple, transparent pricing',
+      subtitle: 'Choose the plan that fits your business scale and monitoring needs.',
+      plans: [
+        {
+          name: 'Free',
+          price: '0',
+          period: 'forever',
+          description: 'For solo entrepreneurs exploring the market.',
+          features: ['1 Official Source', 'Daily Alerts', 'Basic Matching', 'Email Support'],
+          button: 'Get Started',
+          isPopular: false
+        },
+        {
+          name: 'Pro',
+          price: '299',
+          period: 'per month',
+          description: 'For growing SMEs with active bidding teams.',
+          features: ['All Official Sources', 'Real-time Alerts', 'AI Match Analysis', 'Priority Support', 'Export Results'],
+          button: 'Start Pro Trial',
+          isPopular: true
+        },
+        {
+          name: 'Enterprise',
+          price: 'Custom',
+          period: '',
+          description: 'For large corporations with complex needs.',
+          features: ['Unlimited Sources', 'Dedicated Agent', 'API Access', 'Custom Workflows', 'SLA Guarantee'],
+          button: 'Contact Sales',
+          isPopular: false
+        }
+      ]
     },
   },
   ar: {
@@ -2474,6 +2507,39 @@ export const translations = {
       btnAnalyze: 'تحليل الآن',
       btnSave: 'حفظ',
       alertMessage: 'تنبيه: تم اكتشاف فرصة مطابقة عالية!'
+    },
+    pricing: {
+      title: 'أسعار بسيطة وشفافة',
+      subtitle: 'اختر الخطة التي تناسب حجم عملك واحتياجات المراقبة الخاصة بك.',
+      plans: [
+        {
+          name: 'مجاني',
+          price: '٠',
+          period: 'للأبد',
+          description: 'لرواد الأعمال المنفردين الذين يستكشفون السوق.',
+          features: ['مصدر رسمي واحد', 'تنبيهات يومية', 'مطابقة أساسية', 'دعم عبر البريد'],
+          button: 'ابدأ الآن',
+          isPopular: false
+        },
+        {
+          name: 'برو',
+          price: '٢٩٩',
+          period: 'شهرياً',
+          description: 'للمؤسسات الصغيرة والمتوسطة ذات الفرق النشطة.',
+          features: ['جميع المصادر الرسمية', 'تنبيهات فورية', 'تحليل مطابقة بالذكاء الاصطناعي', 'دعم ذو أولوية', 'تصدير النتائج'],
+          button: 'ابدأ التجربة مجاناً',
+          isPopular: true
+        },
+        {
+          name: 'المؤسسات',
+          price: 'مخصص',
+          period: '',
+          description: 'للشركات الكبيرة ذات الاحتياجات المعقدة.',
+          features: ['مصادر غير محدودة', 'وكيل مخصص', 'وصول لـ API', 'سير عمل مخصص', 'ضمان مستوى الخدمة'],
+          button: 'تواصل مع المبيعات',
+          isPopular: false
+        }
+      ]
     },
   }
 };

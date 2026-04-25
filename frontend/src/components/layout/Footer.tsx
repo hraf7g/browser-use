@@ -10,9 +10,11 @@ const Footer = () => {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 lg:col-span-1">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-bold text-xl">TW</div>
-              <span className="text-xl font-bold tracking-tight">{t.footer.brand}</span>
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-11 h-11 bg-gradient-to-br from-primary to-blue-700 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg shadow-primary/20">
+                TW
+              </div>
+              <span className="text-2xl font-black tracking-tight">{t.footer.brand}</span>
             </div>
             <p className="text-muted text-sm leading-relaxed mb-6">
               {t.footer.description}
@@ -39,7 +41,7 @@ const Footer = () => {
         </div>
 
         <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-xs text-muted">© ٢٠٢٤ {t.footer.brand}. جميع الحقوق محفوظة.</p>
+          <p className="text-xs text-muted">{t.footer.copyright}</p>
           <div className="flex gap-8 text-xs text-muted">
             <Link href="/privacy" className="hover:text-primary">{t.footer.privacy}</Link>
             <Link href="/terms" className="hover:text-primary">{t.footer.terms}</Link>

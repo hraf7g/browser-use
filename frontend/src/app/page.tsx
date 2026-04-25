@@ -6,6 +6,7 @@ import LiveActivity from '@/components/sections/LiveActivity';
 import ProductPreview from '@/components/sections/ProductPreview';
 import FeaturesCoverage from '@/components/sections/FeaturesCoverage';
 import FinalCTA from '@/components/sections/FinalCTA';
+import Pricing from '@/components/sections/Pricing';
 import Footer from '@/components/layout/Footer';
 
 export default function HomePage() {
@@ -30,6 +31,7 @@ export default function HomePage() {
 
       {/* 5. Product Preview (3D Dashboard) */}
       <ProductPreview />
+      <Pricing />
 
       {/* 6. Final Conversion CTA */}
       <FinalCTA />
