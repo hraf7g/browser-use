@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Sun, Moon } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type ThemeMode = 'light' | 'dark';
 
@@ -40,7 +42,18 @@ export default function ThemeToggle() {
       title={theme === 'dark' ? 'الوضع الفاتح' : 'الوضع الداكن'}
     >
       <span className="theme-toggle__icon" aria-hidden="true">
-        {theme === 'dark' ? '☀' : '☾'}
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={theme}
+            initial={{ y: 10, opacity: 0, rotate: -90 }}
+            animate={{ y: 0, opacity: 1, rotate: 0 }}
+            exit={{ y: -10, opacity: 0, rotate: 90 }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
+            style={{ display: 'flex' }}
+          >
+            {theme === 'dark' ? <Sun size={18} strokeWidth={2.5} /> : <Moon size={18} strokeWidth={2.5} />}
+          </motion.div>
+        </AnimatePresence>
       </span>
       <span className="theme-toggle__label">{theme === 'dark' ? 'فاتح' : 'داكن'}</span>
     </button>
