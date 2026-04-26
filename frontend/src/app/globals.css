@@ -49,6 +49,24 @@
   }
 }
 
+[data-theme='dark'] {
+  --background: #0a1628;
+  --background-elevated: #0f1f38;
+  --background-soft: rgba(30, 95, 197, 0.1);
+  --surface: rgba(10, 22, 40, 0.74);
+  --surface-strong: rgba(12, 28, 49, 0.92);
+  --surface-inverse: rgba(255, 255, 255, 0.92);
+  --surface-border: rgba(255, 255, 255, 0.08);
+  --surface-border-strong: rgba(255, 255, 255, 0.12);
+  --text-primary: #f0f4ff;
+  --text-secondary: #94a3b8;
+  --text-muted: #9aa8c1;
+  --accent-soft: rgba(30, 95, 197, 0.22);
+  --success-soft: rgba(16, 185, 129, 0.22);
+  --shadow-soft: 0 24px 80px rgba(0, 0, 0, 0.32);
+  --shadow-strong: 0 30px 90px rgba(0, 0, 0, 0.4);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -95,6 +113,11 @@ select {
 
 button {
   cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
 }
 
 img,
