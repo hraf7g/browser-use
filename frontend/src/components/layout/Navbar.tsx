@@ -71,6 +71,7 @@ export default function Navbar() {
             aria-expanded={isOpen}
             aria-controls="mobile-navigation-panel"
             aria-label={isOpen ? 'إغلاق القائمة' : 'فتح القائمة'}
+            title={isOpen ? 'إغلاق القائمة' : 'فتح القائمة'}
             onClick={() => setIsOpen((current) => !current)}
           >
             <span />
@@ -94,7 +95,13 @@ export default function Navbar() {
               </div>
             </div>
 
-            <button type="button" className="mobile-nav__close" aria-label="إغلاق القائمة" onClick={closeMenu}>
+            <button
+              type="button"
+              className="mobile-nav__close"
+              aria-label="إغلاق القائمة"
+              title="إغلاق القائمة"
+              onClick={closeMenu}
+            >
               <span />
               <span />
             </button>
