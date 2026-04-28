@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Sun, Moon } from 'lucide-react';
 
 type ThemeMode = 'light' | 'dark';
 
@@ -40,7 +41,7 @@ export default function ThemeToggle() {
       title={theme === 'dark' ? 'الوضع الفاتح' : 'الوضع الداكن'}
     >
       <span className="theme-toggle__icon" aria-hidden="true">
-        {theme === 'dark' ? '☀' : '☾'}
+        {theme === 'dark' ? <Sun size={18} strokeWidth={2.5} /> : <Moon size={18} strokeWidth={2.5} />}
       </span>
       <span className="theme-toggle__label">{theme === 'dark' ? 'فاتح' : 'داكن'}</span>
     </button>
