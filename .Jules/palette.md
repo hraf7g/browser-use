@@ -1,0 +1,3 @@
+## 2025-05-01 - Manual Theme Override & Focus States
+**Learning:** Manual theme switching via `data-theme` requires mirroring media query variables to ensure consistency when the user overrides system preferences. Pure CSS media queries are ignored when a manual `data-theme` is applied, so `:root:not([data-theme='light'])` in media queries plus an explicit `[data-theme='dark']` selector is necessary for a robust implementation. Additionally, global focus-visible styles are essential for keyboard accessibility but often overlooked in initial CSS drafts.
+**Action:** When implementing theme toggles, always mirror dark mode variables in both media queries and data-attribute selectors. Ensure `:focus-visible` is defined globally for all interactive elements.
